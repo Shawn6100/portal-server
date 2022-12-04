@@ -55,26 +55,4 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/upload/**")
                 .addResourceLocations("file:" + CommonConstant.FILE_UPLOAD_DIRECTORY);
     }
-
-    /**
-     * 添加消息转化器
-     */
-    @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        converters.add(fastJsonHttpMessageConverter());
-    }
-
-    // FastJson消息转化器
-    private FastJsonHttpMessageConverter fastJsonHttpMessageConverter() {
-        FastJsonConfig config = new FastJsonConfig();
-        config.setDateFormat("yyyy-MM-dd HH:mm:ss");
-        config.setCharset(StandardCharsets.UTF_8);
-        config.setSerializerFeatures(
-                SerializerFeature.PrettyFormat,
-                SerializerFeature.WriteNullListAsEmpty
-        );
-        FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
-        converter.setFastJsonConfig(config);
-        return converter;
-    }
 }
