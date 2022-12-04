@@ -13,7 +13,7 @@ public class User {
   private String username;
   private String password;
   private String salt;
-  private long level;
+  private long role;
   private String nickname;
   private String email;
 

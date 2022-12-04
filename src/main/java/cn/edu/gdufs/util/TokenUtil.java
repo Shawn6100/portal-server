@@ -29,7 +29,7 @@ public class TokenUtil {
      * @param role 权限
      * @return 获取到的token
      */
-    public String grantToken(int userId, int role) {
+    public String grantToken(long userId, long role) {
         String tokenKey = String.format(CacheConstant.TOKEN_KEY, userId);
 
         // 删除之前的token

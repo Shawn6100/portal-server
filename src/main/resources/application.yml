@@ -18,7 +18,7 @@ spring:
         max-wait: 1000
 
 mybatis:
-  type-aliases-package: com.yansp.template.pojo
+  type-aliases-package: cn.edu.gdufs.pojo
   mapper-locations: classpath:mybatis/mapper/*.xml
   configuration:
     map-underscore-to-camel-case: true

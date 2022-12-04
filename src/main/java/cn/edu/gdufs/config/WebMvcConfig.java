@@ -29,7 +29,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new AuthInterceptor())
-//                .excludePathPatterns()
+                .excludePathPatterns("/admin/login")    // 管理员登录
                 .addPathPatterns("/**");
     }
 
@@ -39,7 +39,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("*")
+//                .allowedOrigins("*")
+                .allowedOriginPatterns("*")
                 .allowedMethods("GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true)

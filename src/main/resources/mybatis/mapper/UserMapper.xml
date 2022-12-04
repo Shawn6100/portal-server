@@ -5,4 +5,10 @@
 
 <mapper namespace="cn.edu.gdufs.mapper.UserMapper">
 
+    <select id="getUserByUsername" resultType="User">
+        SELECT *
+        FROM user
+        WHERE username = #{username}
+    </select>
+
 </mapper>

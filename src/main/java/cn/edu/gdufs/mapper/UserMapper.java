@@ -1,5 +1,6 @@
 package cn.edu.gdufs.mapper;
 
+import cn.edu.gdufs.pojo.User;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -9,4 +10,8 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface UserMapper {
+
+    // 根据用户名获取用户信息
+    User getUserByUsername(String username);
+
 }
