@@ -8,5 +8,5 @@ import org.springframework.web.bind.annotation.RestController;
  * Date: 2022/12/3
  */
 @RestController
-public class BlogController {
+public class BlogController extends BaseController {
 }
