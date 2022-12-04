@@ -22,8 +22,7 @@ public class FastJsonConverterConfig {
         config.setDateFormat("yyyy-MM-dd HH:mm:ss");
         config.setCharset(StandardCharsets.UTF_8);
         config.setSerializerFeatures(
-                SerializerFeature.PrettyFormat,
-                SerializerFeature.WriteNullListAsEmpty
+                SerializerFeature.PrettyFormat
         );
         FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
         converter.setFastJsonConfig(config);

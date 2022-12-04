@@ -1,6 +1,7 @@
 package cn.edu.gdufs.common;
 
 import cn.edu.gdufs.constant.ResultCode;
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -15,6 +16,7 @@ public class ApiResponse<T> implements Serializable {
 
     private int code;
     private String msg;
+    @JSONField(ordinal = 1)
     private T data;
 
     private ApiResponse() {
@@ -35,73 +37,73 @@ public class ApiResponse<T> implements Serializable {
      * 操作成功响应
      */
     public static <T> ApiResponse<T> success() {
-        return new ApiResponse<T>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMsg());
+        return new ApiResponse<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMsg());
     }
 
     public static <T> ApiResponse<T> success(String message) {
-        return new ApiResponse<T>(ResultCode.SUCCESS.getCode(), message);
+        return new ApiResponse<>(ResultCode.SUCCESS.getCode(), message);
     }
 
     public static <T> ApiResponse<T> success(T data) {
-        return new ApiResponse<T>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMsg(), data);
+        return new ApiResponse<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMsg(), data);
     }
 
     public static <T> ApiResponse<T> success(T data, String message) {
-        return new ApiResponse<T>(ResultCode.SUCCESS.getCode(), message, data);
+        return new ApiResponse<>(ResultCode.SUCCESS.getCode(), message, data);
     }
 
     /**
      * 操作失败响应
      */
     public static <T> ApiResponse<T> fail() {
-        return new ApiResponse<T>(ResultCode.FAILURE.getCode(), ResultCode.FAILURE.getMsg());
+        return new ApiResponse<>(ResultCode.FAILURE.getCode(), ResultCode.FAILURE.getMsg());
     }
 
     public static <T> ApiResponse<T> fail(String message) {
-        return new ApiResponse<T>(ResultCode.FAILURE.getCode(), message);
+        return new ApiResponse<>(ResultCode.FAILURE.getCode(), message);
     }
 
     /**
      * Token异常响应
      */
     public static <T> ApiResponse<T> tokenError() {
-        return new ApiResponse<T>(ResultCode.NOT_AUTHORIZATION.getCode(), ResultCode.NOT_AUTHORIZATION.getMsg());
+        return new ApiResponse<>(ResultCode.NOT_AUTHORIZATION.getCode(), ResultCode.NOT_AUTHORIZATION.getMsg());
     }
 
     public static <T> ApiResponse<T> tokenError(String message) {
-        return new ApiResponse<T>(ResultCode.NOT_AUTHORIZATION.getCode(), message);
+        return new ApiResponse<>(ResultCode.NOT_AUTHORIZATION.getCode(), message);
     }
 
     /**
      * 参数校验异常响应
      */
     public static <T> ApiResponse<T> paramError() {
-        return new ApiResponse<T>(ResultCode.VALIDATE_FAILURE.getCode(), ResultCode.VALIDATE_FAILURE.getMsg());
+        return new ApiResponse<>(ResultCode.VALIDATE_FAILURE.getCode(), ResultCode.VALIDATE_FAILURE.getMsg());
     }
 
     public static <T> ApiResponse<T> paramError(String message) {
-        return new ApiResponse<T>(ResultCode.VALIDATE_FAILURE.getCode(), message);
+        return new ApiResponse<>(ResultCode.VALIDATE_FAILURE.getCode(), message);
     }
 
     /**
      * 权限不足响应
      */
     public static <T> ApiResponse<T> permissionError() {
-        return new ApiResponse<T>(ResultCode.FORBIDDEN.getCode(), ResultCode.FORBIDDEN.getMsg());
+        return new ApiResponse<>(ResultCode.FORBIDDEN.getCode(), ResultCode.FORBIDDEN.getMsg());
     }
 
     public static <T> ApiResponse<T> permissionError(String message) {
-        return new ApiResponse<T>(ResultCode.FORBIDDEN.getCode(), message);
+        return new ApiResponse<>(ResultCode.FORBIDDEN.getCode(), message);
     }
 
     /**
      * 服务器内部错误响应
      */
     public static <T> ApiResponse<T> serverError() {
-        return new ApiResponse<T>(ResultCode.SERVER_ERROR.getCode(), ResultCode.SERVER_ERROR.getMsg());
+        return new ApiResponse<>(ResultCode.SERVER_ERROR.getCode(), ResultCode.SERVER_ERROR.getMsg());
     }
 
     public static <T> ApiResponse<T> serverError(String message) {
-        return new ApiResponse<T>(ResultCode.SERVER_ERROR.getCode(), message);
+        return new ApiResponse<>(ResultCode.SERVER_ERROR.getCode(), message);
     }
 }
