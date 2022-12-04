@@ -1,6 +1,6 @@
 package cn.edu.gdufs.mapper;
 
-import cn.edu.gdufs.pojo.User;
+import cn.edu.gdufs.pojo.Admin;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -9,9 +9,9 @@ import org.apache.ibatis.annotations.Mapper;
  * Date: 2022/12/3
  */
 @Mapper
-public interface UserMapper {
+public interface AdminMapper {
 
     // 根据用户名获取用户信息
-    User getUserByUsername(String username);
+    Admin getUserByUsername(String username);
 
 }

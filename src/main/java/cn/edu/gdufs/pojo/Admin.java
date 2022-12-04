@@ -13,7 +13,7 @@ import javax.validation.constraints.Null;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Admin {
 
   /**
    * 管理员id
