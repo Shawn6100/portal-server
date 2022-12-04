@@ -38,6 +38,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     public ApiResponse<Object> exceptionResult(Exception e) {
+        log.error("SERVER ERROR: " + e.getMessage());
         return ApiResponse.serverError(String.format("操作失败，请重试。[%s]", e.getMessage()));
     }
 }
