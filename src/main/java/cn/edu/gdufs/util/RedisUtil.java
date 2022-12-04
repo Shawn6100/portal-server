@@ -1,0 +1,76 @@
+package cn.edu.gdufs.util;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
+
+/**
+ * Description: Redis工具类
+ * Author: 严仕鹏
+ * Date: 2022/12/2
+ */
+@Component
+public class RedisUtil {
+
+    @Autowired
+    private RedisTemplate<String,Object> redisTemplate;
+
+    // 判断key是否存在
+    public boolean hasKey(String key) {
+        return Boolean.TRUE.equals(redisTemplate.hasKey(key));
+    }
+
+    // 获取缓存值
+    public Object get(String key) {
+        return key == null ? null : redisTemplate.opsForValue().get(key);
+    }
+
+    // 添加缓存数据
+    public void set(String key, Object value) {
+        redisTemplate.opsForValue().set(key, value);
+    }
+
+    // 添加缓存数据和缓存过期时间
+    public void set(String key, Object value, long time) {
+        if (time > 0) {
+            redisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
+        } else {
+            redisTemplate.opsForValue().set(key, value);
+        }
+    }
+
+    // 删除缓存数据
+    public void del(String... key) {
+        if (key == null || key.length == 0) {
+            return;
+        }
+        if (key.length == 1) {
+            redisTemplate.delete(key[0]);
+        } else {
+            redisTemplate.delete(Arrays.asList(key));
+        }
+    }
+
+    /**
+     * 获取剩余时间
+     * @param key key
+     * @return -1为未设置；-2为键不存在
+     */
+    public Long getExpire(String key){
+        return redisTemplate.opsForValue().getOperations().getExpire(key);
+    }
+
+    /**
+     * 设置过期时间
+     * @param key key
+     * @param time 过期时间，单位为秒
+     */
+    public void setExpire(String key, long time) {
+        if (time > 0) {
+            redisTemplate.expire(key, time, TimeUnit.SECONDS);
+        }
+    }
+}
