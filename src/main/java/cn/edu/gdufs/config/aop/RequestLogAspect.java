@@ -27,7 +27,7 @@ public class RequestLogAspect {
 
     public static final String LOG_TEMPLATE = "LogId: {} | Request URL: {} | Http Method: {} | URL: {} | IP : {} | Class Method: {} | Args: {} | Token: {} | Msg: {}";
 
-    @Pointcut("execution(public * com.yansp.template.controller..*.*(..))")
+    @Pointcut("execution(public * cn.edu.gdufs.controller..*.*(..))")
     public void requestLog() {
         // 拦截控制器所有方法
     }
@@ -44,9 +44,9 @@ public class RequestLogAspect {
             logger.info(LOG_TEMPLATE,
                     logId,
                     request.getRequestURL().toString(),
-                    request.getHeader("X-Real-IP"),
                     request.getMethod(),
                     request.getRemoteAddr(),
+                    request.getHeader("X-Real-IP"),
                     joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName(),
                     args,
                     request.getHeader("Token"),
