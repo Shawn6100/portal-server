@@ -9,7 +9,16 @@ import cn.edu.gdufs.pojo.Admin;
  */
 public interface AdminService {
 
-    // 校验用户名和密码是否正确
-    Admin checkPassword(String username, String password);
+    // 登录
+    Admin login(String username, String password);
+
+    // 校验用户名和密码是否错误
+    boolean checkPassword(Admin admin, String password);
+
+    // 根据用户id查询用户信息
+    Admin getAdminById(long id);
+
+    // 修改密码
+    void updatePassword(long id, String password);
 
 }

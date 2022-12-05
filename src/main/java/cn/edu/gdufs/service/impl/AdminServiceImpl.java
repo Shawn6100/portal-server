@@ -20,11 +20,26 @@ public class AdminServiceImpl implements AdminService {
     private AdminMapper adminMapper;
 
     @Override
-    public Admin checkPassword(String username, String password) {
-        Admin admin = adminMapper.getUserByUsername(username);
-        if (admin == null || !admin.getPassword().equals(MD5Util.encode(password, admin.getSalt()))) {
+    public Admin login(String username, String password) {
+        Admin admin = adminMapper.getAdminByUsername(username);
+        if (checkPassword(admin, password)) {
             throw new ApiException("用户名或密码错误");
         }
         return admin;
+    }
+
+    @Override
+    public boolean checkPassword(Admin admin, String password) {
+        return admin == null || !admin.getPassword().equals(MD5Util.encode(password, admin.getSalt()));
+    }
+
+    @Override
+    public Admin getAdminById(long id) {
+        return adminMapper.getAdminById(id);
+    }
+
+    @Override
+    public void updatePassword(long id, String password) {
+        adminMapper.updatePassword(id, password);
     }
 }

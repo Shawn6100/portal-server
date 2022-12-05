@@ -12,6 +12,12 @@ import org.apache.ibatis.annotations.Mapper;
 public interface AdminMapper {
 
     // 根据用户名获取用户信息
-    Admin getUserByUsername(String username);
+    Admin getAdminByUsername(String username);
+
+    // 根据用户id查询用户信息
+    Admin getAdminById(long id);
+
+    // 修改密码
+    void updatePassword(long id, String password);
 
 }

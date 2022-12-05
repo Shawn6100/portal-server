@@ -5,11 +5,24 @@
 
 <mapper namespace="cn.edu.gdufs.mapper.AdminMapper">
 
-    <select id="getUserByUsername" resultType="Admin">
+    <select id="getAdminByUsername" resultType="Admin">
         SELECT *
         FROM admin
         WHERE username = #{username}
           AND is_deleted = 0
     </select>
+
+    <select id="getAdminById" resultType="Admin">
+        SELECT *
+        FROM admin
+        WHERE id = #{id}
+          AND is_deleted = 0
+    </select>
+
+    <update id="updatePassword">
+        UPDATE admin
+        SET password = #{password}
+        WHERE id = #{id}
+    </update>
 
 </mapper>
