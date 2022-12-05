@@ -99,4 +99,10 @@ public class AdminServiceImpl implements AdminService {
         // 修改管理员信息
         adminMapper.updateAdmin(admin);
     }
+
+    // 删除管理员
+    @Override
+    public void deleteAdmin(long id) {
+        adminMapper.deleteAdmin(id);
+    }
 }

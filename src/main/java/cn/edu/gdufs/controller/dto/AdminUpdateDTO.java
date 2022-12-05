@@ -30,7 +30,6 @@ public class AdminUpdateDTO {
     /**
      * 管理员昵称
      */
-    @NotBlank(message = "管理员昵称不能为空")
     @Length(max = 50, message = "管理员昵称长度超出限制")
     private String nickname;
 

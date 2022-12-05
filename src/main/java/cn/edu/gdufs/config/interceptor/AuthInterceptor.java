@@ -28,6 +28,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         String token = request.getHeader(TOKEN_HEADER);
         if (token == null || token.isEmpty()) {
             response.getWriter().write(JSON.toJSONString(ApiResponse.tokenError("token缺失")));
+            return false;
         }
         int role;
         try {

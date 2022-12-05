@@ -107,6 +107,8 @@ public class AdminController extends BaseController {
 
     /**
      * 管理员修改个人信息
+     * @param adminUpdateDTO AdminUpdateDTO
+     * @return ApiResponse<Object>
      */
     @PutMapping()
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
@@ -122,6 +124,25 @@ public class AdminController extends BaseController {
 
         // 修改管理员信息
         adminService.updateAdmin(admin);
+        return ApiResponse.success();
+    }
+
+    /**
+     * 超级管理员删除管理员
+     * @param id 管理员id
+     * @return ApiResponse<Object>
+     */
+    @DeleteMapping("/{id}")
+    @RequiredPermission(RoleConstant.ROLE_SUPER_ADMIN)
+    public ApiResponse<Object> deleteAdmin(@PathVariable long id) {
+        if (id <= 0) {
+            return ApiResponse.paramError("管理员id不能小于1");
+        }
+        // 防止超级管理员删除自己
+        if (id == getUserId()) {
+            return ApiResponse.fail("非法操作");
+        }
+        adminService.deleteAdmin(id);
         return ApiResponse.success();
     }
 

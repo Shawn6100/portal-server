@@ -52,4 +52,10 @@
         WHERE id = #{id}
     </update>
 
+    <update id="deleteAdmin">
+        UPDATE admin
+        SET is_deleted = 1
+        WHERE id = #{id}
+    </update>
+
 </mapper>

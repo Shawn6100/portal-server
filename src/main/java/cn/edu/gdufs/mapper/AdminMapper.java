@@ -34,4 +34,7 @@ public interface AdminMapper {
     // 修改管理员信息
     void updateAdmin(Admin admin);
 
+    // 删除管理员
+    void deleteAdmin(long id);
+
 }
