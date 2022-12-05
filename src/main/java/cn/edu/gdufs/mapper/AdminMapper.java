@@ -31,4 +31,7 @@ public interface AdminMapper {
     // 新增管理员
     void insertAdmin(Admin admin);
 
+    // 修改管理员信息
+    void updateAdmin(Admin admin);
+
 }

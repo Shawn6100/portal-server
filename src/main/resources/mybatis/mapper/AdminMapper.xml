@@ -43,4 +43,13 @@
         VALUES (#{username}, #{password}, #{salt}, #{role}, #{nickname}, #{email})
     </insert>
 
+    <update id="updateAdmin">
+        UPDATE admin
+            <set>
+                <if test="nickname != null"> nickname = #{nickname}, </if>
+                <if test="email != null"> email = #{email} </if>
+            </set>
+        WHERE id = #{id}
+    </update>
+
 </mapper>

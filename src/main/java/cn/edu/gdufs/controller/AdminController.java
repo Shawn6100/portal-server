@@ -1,8 +1,10 @@
 package cn.edu.gdufs.controller;
 
+import cn.edu.gdufs.common.ApiResponse;
 import cn.edu.gdufs.config.interceptor.RequiredPermission;
 import cn.edu.gdufs.constant.RoleConstant;
 import cn.edu.gdufs.controller.dto.AdminInsertDTO;
+import cn.edu.gdufs.controller.dto.AdminUpdateDTO;
 import cn.edu.gdufs.controller.vo.AdminDetailVO;
 import cn.edu.gdufs.exception.ApiException;
 import cn.edu.gdufs.pojo.Admin;
@@ -84,6 +86,8 @@ public class AdminController extends BaseController {
 
     /**
      * 超级管理员添加管理员
+     * @param adminInsertDTO AdminInsertDTO
+     * @return AdminDetailVO
      */
     @PostMapping()
     @RequiredPermission(RoleConstant.ROLE_SUPER_ADMIN)
@@ -99,6 +103,26 @@ public class AdminController extends BaseController {
         AdminDetailVO adminDetailVO = new AdminDetailVO();
         BeanUtils.copyProperties(admin, adminDetailVO);
         return adminDetailVO;
+    }
+
+    /**
+     * 管理员修改个人信息
+     */
+    @PutMapping()
+    @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
+    public ApiResponse<Object> editProfile(@RequestBody @Valid AdminUpdateDTO adminUpdateDTO) {
+        // 普通管理员只能修改自己的信息
+        if (getUserRole() == RoleConstant.ROLE_NORMAL_ADMIN && getUserId() != adminUpdateDTO.getId()) {
+            return ApiResponse.permissionError();
+        }
+
+        // 数据模型转换
+        Admin admin = new Admin();
+        BeanUtils.copyProperties(adminUpdateDTO, admin);
+
+        // 修改管理员信息
+        adminService.updateAdmin(admin);
+        return ApiResponse.success();
     }
 
     /**

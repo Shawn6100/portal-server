@@ -29,4 +29,7 @@ public interface AdminService {
     // 新增管理员
     Admin insertAdmin(Admin admin);
 
+    // 修改管理员信息
+    void updateAdmin(Admin admin);
+
 }

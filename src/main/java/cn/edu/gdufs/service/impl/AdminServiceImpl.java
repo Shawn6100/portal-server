@@ -84,4 +84,19 @@ public class AdminServiceImpl implements AdminService {
         adminMapper.insertAdmin(admin);
         return admin;
     }
+
+    // 修改管理员信息
+    @Override
+    public void updateAdmin(Admin admin) {
+        // 判空
+        if (StringUtils.isEmptyOrWhitespaceOnly(admin.getNickname())) {
+            admin.setNickname(null);
+        }
+        if (StringUtils.isEmptyOrWhitespaceOnly(admin.getEmail())) {
+            admin.setEmail(null);
+        }
+
+        // 修改管理员信息
+        adminMapper.updateAdmin(admin);
+    }
 }
