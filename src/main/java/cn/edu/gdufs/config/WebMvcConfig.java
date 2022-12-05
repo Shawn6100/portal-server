@@ -2,19 +2,12 @@ package cn.edu.gdufs.config;
 
 import cn.edu.gdufs.config.interceptor.AuthInterceptor;
 import cn.edu.gdufs.constant.CommonConstant;
-import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.alibaba.fastjson.support.config.FastJsonConfig;
-import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import java.nio.charset.StandardCharsets;
-import java.util.List;
 
 /**
  * Description:
@@ -36,6 +29,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authInterceptor())
                 .excludePathPatterns("/admin/login")    // 管理员登录
+                .excludePathPatterns("/common/**")      // 通用Controller
+                .excludePathPatterns("/upload/**")      // 服务器上的文件资源
                 .addPathPatterns("/**");
     }
 
