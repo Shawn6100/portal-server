@@ -3,6 +3,8 @@ package cn.edu.gdufs.mapper;
 import cn.edu.gdufs.pojo.Admin;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * Description:
  * Author: 严仕鹏
@@ -19,5 +21,8 @@ public interface AdminMapper {
 
     // 修改密码
     void updatePassword(long id, String password);
+
+    // 查询管理员列表
+    List<Admin> getAdminList();
 
 }

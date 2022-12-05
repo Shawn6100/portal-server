@@ -10,6 +10,8 @@ import cn.edu.gdufs.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * Description:
  * Author: 严仕鹏
@@ -47,6 +49,16 @@ public class AdminController extends BaseController {
     public void adminLogout() {
         // 删除用户token
         tokenUtil.deleteToken(getUserId());
+    }
+
+    /**
+     * 查询管理员列表
+     * @return 管理员信息列表
+     */
+    @GetMapping()
+    @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
+    public List<Admin> getAdminList() {
+        return adminService.getAdminList();
     }
 
     /**

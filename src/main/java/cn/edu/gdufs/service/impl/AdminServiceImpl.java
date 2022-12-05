@@ -8,6 +8,8 @@ import cn.edu.gdufs.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Description:
  * Author: 严仕鹏
@@ -41,5 +43,10 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void updatePassword(long id, String password) {
         adminMapper.updatePassword(id, password);
+    }
+
+    @Override
+    public List<Admin> getAdminList() {
+        return adminMapper.getAdminList();
     }
 }

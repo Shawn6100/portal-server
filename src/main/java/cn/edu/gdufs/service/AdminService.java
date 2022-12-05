@@ -2,6 +2,8 @@ package cn.edu.gdufs.service;
 
 import cn.edu.gdufs.pojo.Admin;
 
+import java.util.List;
+
 /**
  * Description:
  * Author: 严仕鹏
@@ -20,5 +22,8 @@ public interface AdminService {
 
     // 修改密码
     void updatePassword(long id, String password);
+
+    // 查询管理员列表
+    List<Admin> getAdminList();
 
 }

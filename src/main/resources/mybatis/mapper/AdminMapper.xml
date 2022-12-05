@@ -25,4 +25,10 @@
         WHERE id = #{id}
     </update>
 
+    <select id="getAdminList" resultType="Admin">
+        SELECT id, username, role, nickname, email
+        FROM admin
+        WHERE is_deleted = 0
+    </select>
+
 </mapper>
