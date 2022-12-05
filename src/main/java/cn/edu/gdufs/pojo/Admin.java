@@ -43,7 +43,7 @@ public class Admin {
    * 管理员权限：详见 RoleConstant 类
    */
   @Min(value = 0,message = "管理员权限不能小于0")
-  private Long role;
+  private Integer role;
 
   /**
    * 管理员昵称

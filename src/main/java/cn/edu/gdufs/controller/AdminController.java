@@ -2,14 +2,18 @@ package cn.edu.gdufs.controller;
 
 import cn.edu.gdufs.config.interceptor.RequiredPermission;
 import cn.edu.gdufs.constant.RoleConstant;
+import cn.edu.gdufs.controller.dto.AdminInsertDTO;
+import cn.edu.gdufs.controller.vo.AdminDetailVO;
 import cn.edu.gdufs.exception.ApiException;
 import cn.edu.gdufs.pojo.Admin;
 import cn.edu.gdufs.service.AdminService;
 import cn.edu.gdufs.util.MD5Util;
 import cn.edu.gdufs.util.TokenUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -68,14 +72,33 @@ public class AdminController extends BaseController {
      */
     @GetMapping("/{id}")
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
-    public Admin getAdminDetail(@PathVariable long id) {
+    public AdminDetailVO getAdminDetail(@PathVariable long id) {
         Admin admin = adminService.getAdminById(id);
         if (admin == null) {
             throw new ApiException("管理员不存在");
         }
-        admin.setPassword(null);
-        admin.setSalt(null);
-        return admin;
+        // 数据模型转换
+        return new AdminDetailVO(admin.getId(), admin.getUsername(),
+                admin.getRole(), admin.getNickname(), admin.getEmail());
+    }
+
+    /**
+     * 超级管理员添加管理员
+     */
+    @PostMapping()
+    @RequiredPermission(RoleConstant.ROLE_SUPER_ADMIN)
+    public AdminDetailVO insertAdmin(@RequestBody @Valid AdminInsertDTO adminInsertDTO) {
+        // 数据模型转换
+        Admin admin = new Admin();
+        BeanUtils.copyProperties(adminInsertDTO, admin);
+
+        // 新增管理员
+        admin = adminService.insertAdmin(admin);
+
+        // 数据模型转换
+        AdminDetailVO adminDetailVO = new AdminDetailVO();
+        BeanUtils.copyProperties(admin, adminDetailVO);
+        return adminDetailVO;
     }
 
     /**
@@ -96,7 +119,7 @@ public class AdminController extends BaseController {
         }
         // 修改密码
         adminService.updatePassword(getUserId(), MD5Util.encode(newPassword.trim(), admin.getSalt()));
-        // 退出登录
+        // 删除token，重新登录
         adminLogout();
     }
 

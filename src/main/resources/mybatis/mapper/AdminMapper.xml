@@ -12,6 +12,13 @@
           AND is_deleted = 0
     </select>
 
+    <select id="getAdminByEmail" resultType="Admin">
+        SELECT *
+        FROM admin
+        WHERE email = #{email}
+          AND is_deleted = 0
+    </select>
+
     <select id="getAdminById" resultType="Admin">
         SELECT *
         FROM admin
@@ -30,5 +37,10 @@
         FROM admin
         WHERE is_deleted = 0
     </select>
+
+    <insert id="insertAdmin" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO admin(username, password, salt, role, nickname, email)
+        VALUES (#{username}, #{password}, #{salt}, #{role}, #{nickname}, #{email})
+    </insert>
 
 </mapper>

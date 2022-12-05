@@ -16,6 +16,9 @@ public interface AdminMapper {
     // 根据用户名获取用户信息
     Admin getAdminByUsername(String username);
 
+    // 根据邮箱获取管理员信息
+    Admin getAdminByEmail(String email);
+
     // 根据用户id查询用户信息
     Admin getAdminById(long id);
 
@@ -24,5 +27,8 @@ public interface AdminMapper {
 
     // 查询管理员列表
     List<Admin> getAdminList();
+
+    // 新增管理员
+    void insertAdmin(Admin admin);
 
 }

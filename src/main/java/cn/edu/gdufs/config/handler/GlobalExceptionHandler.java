@@ -3,6 +3,9 @@ package cn.edu.gdufs.config.handler;
 import cn.edu.gdufs.common.ApiResponse;
 import cn.edu.gdufs.exception.ApiException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -23,6 +26,21 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ApiException.class)
     public ApiResponse<Object> apiExceptionResult(ApiException e) {
         return ApiResponse.fail(e.getMessage());
+    }
+
+    /**
+     * 处理参数校验异常异常
+     */
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ApiResponse<Object> validationErrorResult(MethodArgumentNotValidException e) {
+        BindingResult result = e.getBindingResult();
+        StringBuffer sb = new StringBuffer();
+        if (result.getFieldErrorCount() > 0) {
+            for (FieldError fieldError : result.getFieldErrors()) {
+                sb.append(fieldError.getDefaultMessage()).append("；");
+            }
+        }
+        return ApiResponse.paramError(String.format("参数校验错误。[%s]", sb.delete(sb.length() - 1, sb.length())));
     }
 
     /**

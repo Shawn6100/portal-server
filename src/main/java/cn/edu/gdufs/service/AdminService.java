@@ -26,4 +26,7 @@ public interface AdminService {
     // 查询管理员列表
     List<Admin> getAdminList();
 
+    // 新增管理员
+    Admin insertAdmin(Admin admin);
+
 }
