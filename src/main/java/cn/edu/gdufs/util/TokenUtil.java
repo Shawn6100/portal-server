@@ -33,10 +33,7 @@ public class TokenUtil {
         String tokenKey = String.format(CacheConstant.TOKEN_KEY, userId);
 
         // 删除之前的token
-        String lastToken = (String) redisUtil.get(tokenKey);
-        if (lastToken != null) {
-            redisUtil.del(lastToken);
-        }
+        deleteToken(userId);
 
         // token携带信息
         String tokenInfo = String.format(CacheConstant.TOKEN_INFO, userId, role);
@@ -47,6 +44,20 @@ public class TokenUtil {
         redisUtil.set(token, tokenInfo, SEVEN_DAY_TIME_SECOND);
 
         return token;
+    }
+
+    /**
+     * 删除token
+     *
+     * @param userId 用户id
+     */
+    public void deleteToken(long userId) {
+        String tokenKey = String.format(CacheConstant.TOKEN_KEY, userId);
+        String lastToken = (String) redisUtil.get(tokenKey);
+        if (lastToken != null) {
+            redisUtil.del(lastToken);
+        }
+        redisUtil.del(tokenKey);
     }
 
     /**
