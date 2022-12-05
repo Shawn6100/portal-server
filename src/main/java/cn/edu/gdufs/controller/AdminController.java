@@ -62,6 +62,23 @@ public class AdminController extends BaseController {
     }
 
     /**
+     * 查询管理员信息详情
+     * @param id 管理员id
+     * @return 管理员信息
+     */
+    @GetMapping("/{id}")
+    @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
+    public Admin getAdminDetail(@PathVariable long id) {
+        Admin admin = adminService.getAdminById(id);
+        if (admin == null) {
+            throw new ApiException("管理员不存在");
+        }
+        admin.setPassword(null);
+        admin.setSalt(null);
+        return admin;
+    }
+
+    /**
      * 管理员修改密码
      * @param oldPassword 原密码
      * @param newPassword 新密码
