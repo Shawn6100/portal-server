@@ -1,0 +1,41 @@
+version: 18
+jobs:
+- name: maven ci
+  steps:
+  - !CheckoutStep
+    name: checkout
+    cloneCredential: !DefaultCredential {}
+    withLfs: false
+    withSubmodules: false
+    condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+  - !CommandStep
+    name: publish
+    runInContainer: false
+    interpreter: !DefaultInterpreter
+      commands:
+      - mvn package -Dmaven.test.skip=true
+      - ''
+      - port=33334
+      - pid=$(netstat -nlp | grep :$port | awk '{print $7}' | awk -F "/" '{print $1}')
+      - kill -9 $pid
+      - sleep 2
+      - ''
+      - mv -f target/portal-display-1.0.jar /home/admin/portal-display/portal-display-1.0.jar
+      - cd /home/admin/portal-display
+      - ''
+      - if test -e portal-display-1.0.jar
+      - then
+      - nohup java -jar portal-display-1.0.jar --spring.config.location=file:./conf/application-prod.yml
+        &
+      - fi
+    useTTY: false
+    condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+  triggers:
+  - !BranchUpdateTrigger
+    branches: master
+  retryCondition: never
+  maxRetries: 3
+  retryDelay: 30
+  cpuRequirement: 250
+  memoryRequirement: 256
+  timeout: 3600
