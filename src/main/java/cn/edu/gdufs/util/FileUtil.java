@@ -1,7 +1,7 @@
 package cn.edu.gdufs.util;
 
-import cn.edu.gdufs.constant.CommonConstant;
 import cn.edu.gdufs.exception.ApiException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,6 +32,10 @@ public class FileUtil {
         ALLOW_FILE_TYPE.add("webp");
     }
 
+    // 文件上传路径
+    @Value("${my-config.file-upload-path}")
+    private String filePath;
+
     /**
      * 文件上传方法
      * @param file 文件
@@ -53,7 +57,7 @@ public class FileUtil {
                 throw new ApiException("文件类型不允许");
             }
             // 目标文件夹路径
-            String directoryPath = CommonConstant.FILE_UPLOAD_DIRECTORY + format;
+            String directoryPath = filePath + format;
             File directory = new File(directoryPath);
             if (!directory.exists() && !directory.mkdir()) {
                 throw new ApiException("文件夹创建失败，请重试");

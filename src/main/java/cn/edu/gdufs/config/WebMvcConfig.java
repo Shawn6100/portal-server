@@ -1,7 +1,7 @@
 package cn.edu.gdufs.config;
 
 import cn.edu.gdufs.config.interceptor.AuthInterceptor;
-import cn.edu.gdufs.constant.CommonConstant;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -40,7 +40,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-//                .allowedOrigins("*")
                 .allowedOriginPatterns("*")
                 .allowedMethods("GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
@@ -48,12 +47,16 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .maxAge(3600);
     }
 
+    // 用户上传文件的路径
+    @Value("${my-config.file-upload-path}")
+    private String filePath;
+
     /**
      * 添加资源管理器
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/upload/**")
-                .addResourceLocations("file:" + CommonConstant.FILE_UPLOAD_DIRECTORY);
+                .addResourceLocations("file:" + filePath);
     }
 }
