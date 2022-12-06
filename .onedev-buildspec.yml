@@ -1,6 +1,7 @@
 version: 18
 jobs:
 - name: maven ci
+  jobExecutor: hz-aliyun-remote
   steps:
   - !CheckoutStep
     name: checkout
@@ -23,16 +24,14 @@ jobs:
       - mv -f target/portal-display-1.0.jar /home/admin/portal-display/portal-display-1.0.jar
       - cd /home/admin/portal-display
       - ''
-      - if test -e portal-display-1.0.jar
-      - then
       - nohup java -jar portal-display-1.0.jar --spring.config.location=file:./conf/application-prod.yml
-        &
-      - fi
+        >>./nohup.out 2>&1 &
     useTTY: false
     condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
   triggers:
   - !BranchUpdateTrigger
     branches: master
+    projects: portal-display
   retryCondition: never
   maxRetries: 3
   retryDelay: 30
