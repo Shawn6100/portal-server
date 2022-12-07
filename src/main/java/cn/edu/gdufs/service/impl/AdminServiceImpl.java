@@ -10,9 +10,7 @@ import com.mysql.cj.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * Description:
@@ -49,9 +47,10 @@ public class AdminServiceImpl implements AdminService {
 
     // 根据用户id数组查询用户信息列表
     @Override
-    public List<Admin> getAdminListByIds(Collection<Long> ids) {
-        List<Long> idList = new ArrayList<>(ids);
-        return adminMapper.getAdminListByIds(idList);
+    public Map<Long, Admin> getAdminMapByIds(Collection<Long> ids) {
+        Map<Long, Admin> result = new HashMap<>();
+        adminMapper.getAdminListByIds(new ArrayList<>(ids)).forEach(admin -> result.put(admin.getId(), admin));
+        return result;
     }
 
     // 修改密码
