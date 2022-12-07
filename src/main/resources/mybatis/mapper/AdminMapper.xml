@@ -26,6 +26,15 @@
           AND is_deleted = 0
     </select>
 
+    <select id="getAdminListByIds" resultType="Admin">
+        SELECT *
+        FROM admin
+        WHERE id in
+            <foreach collection="ids" item="id" separator="," open="(" close=")">
+                #{id}
+            </foreach>
+    </select>
+
     <update id="updatePassword">
         UPDATE admin
         SET password = #{password}

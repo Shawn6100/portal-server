@@ -43,12 +43,12 @@ public class Carousel {
    * 轮播图创建用户id
    */
   @Min(value = 0, message = "轮播图创建用户id不能小于1")
-  private Long createUser;
+  private Long createUserId;
 
   /**
    * 轮播图最后修改用户id
    */
   @Min(value = 0, message = "轮播图最后修改用户id不能小于1")
-  private Long updateUser;
+  private Long updateUserId;
 
 }

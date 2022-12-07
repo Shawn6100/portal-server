@@ -6,6 +6,8 @@ import cn.edu.gdufs.service.CarouselService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Description:
  * Author: 欧丹萍
@@ -18,16 +20,21 @@ public class CarouselServiceImpl implements CarouselService {
     private CarouselMapper carouselMapper;
 
     @Override
+    public List<Carousel> getCarouselList() {
+        return carouselMapper.getCarouselList();
+    }
+
+    @Override
     public void insertCarousel(Carousel carousel, long userId) {
-        carousel.setCreateUser(userId);
-        carousel.setUpdateUser(userId);
+        carousel.setCreateUserId(userId);
+        carousel.setUpdateUserId(userId);
 
         carouselMapper.insertCarousel(carousel);
     }
 
     @Override
     public void updateCarousel(Carousel carousel, long userId) {
-        carousel.setUpdateUser(userId);
+        carousel.setUpdateUserId(userId);
         carouselMapper.updateCarousel(carousel);
     }
 
