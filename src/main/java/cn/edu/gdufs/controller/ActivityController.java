@@ -7,6 +7,7 @@ import cn.edu.gdufs.service.ActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -36,5 +37,14 @@ public class ActivityController extends BaseController {
     @GetMapping("/{id}")
     public Activity getActivityDetail(@PathVariable long id) {
         return activityService.getActivityById(id);
+    }
+
+    /**
+     * 新增活动
+     */
+    @PostMapping
+    public Activity insertActivity(@RequestBody @Valid Activity activity) {
+        activityService.insertActivity(activity);
+        return activity;
     }
 }

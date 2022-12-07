@@ -18,4 +18,7 @@ public interface ActivityMapper {
 
     // 根据id查询活动信息
     Activity getActivityById(long id);
+
+    // 新增活动
+    void insertActivity(Activity activity);
 }
