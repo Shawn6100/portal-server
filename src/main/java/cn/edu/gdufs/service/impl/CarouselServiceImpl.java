@@ -30,4 +30,9 @@ public class CarouselServiceImpl implements CarouselService {
         carousel.setUpdateUser(userId);
         carouselMapper.updateCarousel(carousel);
     }
+
+    @Override
+    public void deleteCarousel(long id) {
+        carouselMapper.deleteCarousel(id);
+    }
 }

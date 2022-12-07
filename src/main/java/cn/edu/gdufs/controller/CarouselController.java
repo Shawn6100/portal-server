@@ -69,4 +69,14 @@ public class CarouselController extends BaseController {
         // 修改轮播图
         carouselService.updateCarousel(carousel, getUserId());
     }
+
+    /**
+     * 删除轮播图
+     */
+    @DeleteMapping("/{id}")
+    @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
+    public void deleteCarousel(@PathVariable long id) {
+        carouselService.deleteCarousel(id);
+    }
+
 }

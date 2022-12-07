@@ -16,4 +16,7 @@ public interface CarouselMapper {
 
     // 修改轮播图
     void updateCarousel(Carousel carousel);
+
+    // 删除轮播图
+    void deleteCarousel(long id);
 }

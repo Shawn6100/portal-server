@@ -15,5 +15,11 @@
         SET content = #{content}, path = #{path}, priority = #{priority}, update_user = #{updateUser}
         WHERE id = #{id}
     </update>
+
+    <update id="deleteCarousel">
+        UPDATE carousel
+        SET is_deleted = 1
+        WHERE id = #{id}
+    </update>
     
 </mapper>

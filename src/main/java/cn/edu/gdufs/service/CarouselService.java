@@ -14,4 +14,7 @@ public interface CarouselService {
 
     // 修改轮播图
     void updateCarousel(Carousel carousel, long userId);
+
+    // 删除轮播图
+    void deleteCarousel(long id);
 }
