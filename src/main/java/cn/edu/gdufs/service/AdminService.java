@@ -3,7 +3,9 @@ package cn.edu.gdufs.service;
 import cn.edu.gdufs.controller.vo.AdminDetailVO;
 import cn.edu.gdufs.pojo.Admin;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Description:
@@ -20,6 +22,9 @@ public interface AdminService {
 
     // 根据用户id查询用户信息
     Admin getAdminById(long id);
+
+    // 根据用户id数组查询用户信息列表
+    Map<Long, Admin> getAdminMapByIds(Collection<Long> ids);
 
     // 查询管理员用户详情信息
     AdminDetailVO getAdminDetail(long id);

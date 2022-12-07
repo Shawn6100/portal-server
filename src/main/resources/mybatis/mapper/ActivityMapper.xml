@@ -5,4 +5,22 @@
 
 <mapper namespace="cn.edu.gdufs.mapper.ActivityMapper">
 
+    <select id="getActivityList" resultType="Activity">
+        SELECT *
+        FROM activity
+        WHERE is_deleted = 0
+        ORDER BY priority DESC, id DESC
+    </select>
+
+    <select id="getActivityById" resultType="Activity">
+        SELECT *
+        FROM activity
+        WHERE id = #{id} AND is_deleted = 0
+    </select>
+
+    <insert id="insertActivity" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO activity(title, content, path, priority, time, href)
+        VALUES (#{title}, #{content}, #{path}, #{priority}, #{time}, #{href})
+    </insert>
+
 </mapper>

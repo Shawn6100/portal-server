@@ -15,7 +15,7 @@ import com.mysql.cj.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * Description:
@@ -75,6 +75,14 @@ public class AdminServiceImpl implements AdminService {
         redisUtil.set(key, JSON.toJSONString(adminDetailVO), CacheConstant.EXPIRE_TIME);
 
         return adminDetailVO;
+    }
+
+    // 根据用户id数组查询用户信息列表
+    @Override
+    public Map<Long, Admin> getAdminMapByIds(Collection<Long> ids) {
+        Map<Long, Admin> result = new HashMap<>();
+        adminMapper.getAdminListByIds(new ArrayList<>(ids)).forEach(admin -> result.put(admin.getId(), admin));
+        return result;
     }
 
     // 修改密码

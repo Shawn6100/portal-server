@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.*;
 
 /**
  * Description:
@@ -29,6 +30,39 @@ public class CarouselController extends BaseController {
     private CarouselService carouselService;
     @Autowired
     private AdminService adminService;
+
+    /**
+     * 查询轮播图列表
+     */
+    @GetMapping()
+    public List<CarouselForAdminVO> getCarouselList() {
+        List<Carousel> carousels = carouselService.getCarouselList();
+
+        Set<Long> adminIds = new HashSet<>();
+        for (Carousel carousel : carousels) {
+            adminIds.add(carousel.getCreateUserId());
+            adminIds.add(carousel.getUpdateUserId());
+        }
+        Map<Long, Admin> adminMap = adminService.getAdminMapByIds(adminIds);
+
+        List<CarouselForAdminVO> voList = new ArrayList<>();
+        for (Carousel carousel : carousels) {
+            CarouselForAdminVO carouselVO = new CarouselForAdminVO();
+            BeanUtils.copyProperties(carousel, carouselVO);
+
+            AdminDetailVO createUser = new AdminDetailVO();
+            BeanUtils.copyProperties(adminMap.get(carousel.getCreateUserId()), createUser);
+            carouselVO.setCreateUser(createUser);
+
+            AdminDetailVO updateUser = new AdminDetailVO();
+            BeanUtils.copyProperties(adminMap.get(carousel.getUpdateUserId()), updateUser);
+            carouselVO.setUpdateUser(updateUser);
+
+            voList.add(carouselVO);
+        }
+
+        return voList;
+    }
 
     /**
      * 新增轮播图
@@ -48,7 +82,7 @@ public class CarouselController extends BaseController {
         BeanUtils.copyProperties(carousel, carouselForAdminVO);
 
         // 查询创建用户信息，并添加到 VO 中
-        Admin admin = adminService.getAdminById(carousel.getCreateUser());
+        Admin admin = adminService.getAdminById(carousel.getCreateUserId());
         AdminDetailVO adminDetailVO = new AdminDetailVO(admin.getId(), admin.getUsername(),
                 admin.getRole(), admin.getNickname(), admin.getEmail());
         carouselForAdminVO.setCreateUser(adminDetailVO);
