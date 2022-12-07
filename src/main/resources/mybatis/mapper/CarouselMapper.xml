@@ -5,7 +5,7 @@
 
 <mapper namespace="cn.edu.gdufs.mapper.CarouselMapper">
 
-    <select id="getCarouselList" resultType="Carouse">
+    <select id="getCarouselList" resultType="Carousel">
         SELECT *
         FROM carousel
         WHERE is_deleted = 0
@@ -13,13 +13,13 @@
     </select>
 
     <insert id="insertCarousel" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO carousel(content, path, priority, create_user, update_user)
-        VALUES (#{content}, #{path}, #{priority}, #{createUser}, #{updateUser})
+        INSERT INTO carousel(content, path, priority, create_user_id, update_user_id)
+        VALUES (#{content}, #{path}, #{priority}, #{createUserId}, #{updateUserId})
     </insert>
 
     <update id="updateCarousel">
         UPDATE carousel
-        SET content = #{content}, path = #{path}, priority = #{priority}, update_user = #{updateUser}
+        SET content = #{content}, path = #{path}, priority = #{priority}, update_user_id = #{updateUserId}
         WHERE id = #{id}
     </update>
 

@@ -48,7 +48,7 @@ public class CarouselController extends BaseController {
         BeanUtils.copyProperties(carousel, carouselForAdminVO);
 
         // 查询创建用户信息，并添加到 VO 中
-        Admin admin = adminService.getAdminById(carousel.getCreateUser());
+        Admin admin = adminService.getAdminById(carousel.getCreateUserId());
         AdminDetailVO adminDetailVO = new AdminDetailVO(admin.getId(), admin.getUsername(),
                 admin.getRole(), admin.getNickname(), admin.getEmail());
         carouselForAdminVO.setCreateUser(adminDetailVO);
