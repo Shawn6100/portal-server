@@ -12,4 +12,10 @@
         ORDER BY priority DESC, id DESC
     </select>
 
+    <select id="getActivityById" resultType="Activity">
+        SELECT *
+        FROM activity
+        WHERE id = #{id} AND is_deleted = 0
+    </select>
+
 </mapper>

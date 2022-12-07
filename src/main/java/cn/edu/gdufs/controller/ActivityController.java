@@ -29,4 +29,12 @@ public class ActivityController extends BaseController {
     public List<Activity> getActivityList() {
         return activityService.getActivityList();
     }
+
+    /**
+     * 查询活动详情
+     */
+    @GetMapping("/{id}")
+    public Activity getActivityDetail(@PathVariable long id) {
+        return activityService.getActivityById(id);
+    }
 }

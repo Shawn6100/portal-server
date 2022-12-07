@@ -23,4 +23,9 @@ public class ActivityServiceImpl implements ActivityService {
     public List<Activity> getActivityList() {
         return activityMapper.getActivityList();
     }
+
+    @Override
+    public Activity getActivityById(long id) {
+        return activityMapper.getActivityById(id);
+    }
 }

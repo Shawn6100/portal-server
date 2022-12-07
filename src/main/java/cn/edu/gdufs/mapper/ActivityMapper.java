@@ -15,4 +15,7 @@ public interface ActivityMapper {
 
     // 查询活动列表
     List<Activity> getActivityList();
+
+    // 根据id查询活动信息
+    Activity getActivityById(long id);
 }
