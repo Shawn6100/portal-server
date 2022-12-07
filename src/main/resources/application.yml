@@ -25,8 +25,9 @@ mybatis:
     lazy-loading-enabled: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
-
 # 该项目相关的配置属性（自行修改）
 my-config:
   # 文件上传存放的路径
   file-upload-path: "F:\\A\\"
+  remote-address: "https://portal.yansp.xyz"
+  is-dev: true

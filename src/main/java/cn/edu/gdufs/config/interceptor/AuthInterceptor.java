@@ -25,6 +25,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json; charset=UTF-8");
         String token = request.getHeader(TOKEN_HEADER);
         if (token == null || token.isEmpty()) {
             response.getWriter().write(JSON.toJSONString(ApiResponse.tokenError("token缺失")));
