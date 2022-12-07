@@ -1,5 +1,6 @@
 package cn.edu.gdufs.mapper;
 
+import cn.edu.gdufs.pojo.Carousel;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -9,4 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface CarouselMapper {
+
+    // 新增轮播图
+    void insertCarousel(Carousel carousel);
 }

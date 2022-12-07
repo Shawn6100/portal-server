@@ -5,4 +5,9 @@
 
 <mapper namespace="cn.edu.gdufs.mapper.CarouselMapper">
 
+    <insert id="insertCarousel" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO carousel(content, path, priority, create_user, update_user)
+        VALUES (#{content}, #{path}, #{priority}, #{createUser}, #{updateUser})
+    </insert>
+
 </mapper>
