@@ -6,6 +6,8 @@ import cn.edu.gdufs.service.CarouselService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Description:
  * Author: 欧丹萍
@@ -16,6 +18,11 @@ public class CarouselServiceImpl implements CarouselService {
 
     @Autowired
     private CarouselMapper carouselMapper;
+
+    @Override
+    public List<Carousel> getCarouselList() {
+        return carouselMapper.getCarouselList();
+    }
 
     @Override
     public void insertCarousel(Carousel carousel, long userId) {

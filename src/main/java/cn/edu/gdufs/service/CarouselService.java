@@ -2,12 +2,17 @@ package cn.edu.gdufs.service;
 
 import cn.edu.gdufs.pojo.Carousel;
 
+import java.util.List;
+
 /**
  * Description:
  * Author: 严仕鹏
  * Date: 2022/12/3
  */
 public interface CarouselService {
+
+    // 查询轮播图列表
+    List<Carousel> getCarouselList();
 
     // 新增轮播图
     void insertCarousel(Carousel carousel, long userId);

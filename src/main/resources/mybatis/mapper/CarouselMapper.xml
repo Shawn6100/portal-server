@@ -5,6 +5,13 @@
 
 <mapper namespace="cn.edu.gdufs.mapper.CarouselMapper">
 
+    <select id="getCarouselList" resultType="Carouse">
+        SELECT *
+        FROM carousel
+        WHERE is_deleted = 0
+        ORDER BY priority DESC, id DESC
+    </select>
+
     <insert id="insertCarousel" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO carousel(content, path, priority, create_user, update_user)
         VALUES (#{content}, #{path}, #{priority}, #{createUser}, #{updateUser})
