@@ -17,7 +17,14 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CarouselInsertDTO {
+public class CarouselUpdateDTO {
+
+    /**
+     * 轮播图id
+     */
+    @NotNull
+    @Min(value = 1, message = "轮播图id不能小于1")
+    private Long id;
 
     /**
      * 轮播图简介

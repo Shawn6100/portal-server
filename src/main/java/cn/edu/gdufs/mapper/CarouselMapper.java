@@ -13,4 +13,7 @@ public interface CarouselMapper {
 
     // 新增轮播图
     void insertCarousel(Carousel carousel);
+
+    // 修改轮播图
+    void updateCarousel(Carousel carousel);
 }

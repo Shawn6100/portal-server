@@ -3,6 +3,7 @@ package cn.edu.gdufs.controller;
 import cn.edu.gdufs.config.interceptor.RequiredPermission;
 import cn.edu.gdufs.constant.RoleConstant;
 import cn.edu.gdufs.controller.dto.CarouselInsertDTO;
+import cn.edu.gdufs.controller.dto.CarouselUpdateDTO;
 import cn.edu.gdufs.controller.vo.AdminDetailVO;
 import cn.edu.gdufs.controller.vo.CarouselForAdminVO;
 import cn.edu.gdufs.pojo.Admin;
@@ -53,5 +54,19 @@ public class CarouselController extends BaseController {
         carouselForAdminVO.setCreateUser(adminDetailVO);
 
         return carouselForAdminVO;
+    }
+
+    /**
+     * 修改轮播图
+     */
+    @PutMapping()
+    @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
+    public void updateCarousel(@RequestBody @Valid CarouselUpdateDTO carouselUpdateDTO) {
+        // 数据模型转换
+        Carousel carousel = new Carousel();
+        BeanUtils.copyProperties(carouselUpdateDTO, carousel);
+
+        // 修改轮播图
+        carouselService.updateCarousel(carousel, getUserId());
     }
 }

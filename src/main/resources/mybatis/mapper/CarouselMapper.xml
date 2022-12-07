@@ -10,4 +10,10 @@
         VALUES (#{content}, #{path}, #{priority}, #{createUser}, #{updateUser})
     </insert>
 
+    <update id="updateCarousel">
+        UPDATE carousel
+        SET content = #{content}, path = #{path}, priority = #{priority}, update_user = #{updateUser}
+        WHERE id = #{id}
+    </update>
+    
 </mapper>

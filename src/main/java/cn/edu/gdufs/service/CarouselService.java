@@ -11,4 +11,7 @@ public interface CarouselService {
 
     // 新增轮播图
     void insertCarousel(Carousel carousel, long userId);
+
+    // 修改轮播图
+    void updateCarousel(Carousel carousel, long userId);
 }
