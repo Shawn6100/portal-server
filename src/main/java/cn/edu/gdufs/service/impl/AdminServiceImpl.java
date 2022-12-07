@@ -14,6 +14,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.mysql.cj.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -127,6 +128,7 @@ public class AdminServiceImpl implements AdminService {
 
     // 修改管理员信息
     @Override
+    @Transactional  // 开启事务
     public void updateAdmin(Admin admin) {
         // 判空
         if (StringUtils.isEmptyOrWhitespaceOnly(admin.getNickname())) {
@@ -138,11 +140,24 @@ public class AdminServiceImpl implements AdminService {
 
         // 修改管理员信息
         adminMapper.updateAdmin(admin);
+
+        // 删除Redis中的缓存信息（如果有）
+        String key = String.format(CacheConstant.ADMIN_INFO, admin.getId());
+        if (redisUtil.get(key) != null) {
+            redisUtil.del(key);
+        }
     }
 
     // 删除管理员
     @Override
+    @Transactional  // 开启事务
     public void deleteAdmin(long id) {
         adminMapper.deleteAdmin(id);
+
+        // 删除Redis中的缓存信息（如果有）
+        String key = String.format(CacheConstant.ADMIN_INFO, id);
+        if (redisUtil.get(key) != null) {
+            redisUtil.del(key);
+        }
     }
 }
