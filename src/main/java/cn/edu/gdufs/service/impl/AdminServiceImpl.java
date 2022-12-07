@@ -1,11 +1,16 @@
 package cn.edu.gdufs.service.impl;
 
+import cn.edu.gdufs.constant.CacheConstant;
 import cn.edu.gdufs.constant.RoleConstant;
+import cn.edu.gdufs.controller.vo.AdminDetailVO;
 import cn.edu.gdufs.exception.ApiException;
 import cn.edu.gdufs.mapper.AdminMapper;
 import cn.edu.gdufs.pojo.Admin;
 import cn.edu.gdufs.service.AdminService;
 import cn.edu.gdufs.util.MD5Util;
+import cn.edu.gdufs.util.RedisUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.mysql.cj.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +27,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private AdminMapper adminMapper;
+    @Autowired
+    private RedisUtil redisUtil;
 
     // 登录
     @Override
@@ -43,6 +50,31 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Admin getAdminById(long id) {
         return adminMapper.getAdminById(id);
+    }
+
+    @Override
+    public AdminDetailVO getAdminDetail(long id) {
+        // 先从Redis中查询
+        String key = String.format(CacheConstant.ADMIN_INFO, id);
+        String adminDetailString = (String) redisUtil.get(key);
+        if (!StringUtils.isEmptyOrWhitespaceOnly(adminDetailString)) {
+            return JSONObject.parseObject(adminDetailString, AdminDetailVO.class);
+        }
+
+        // 查询数据库
+        Admin admin = getAdminById(id);
+        if (admin == null) {
+            throw new ApiException("管理员不存在");
+        }
+
+        // 数据模型转换
+        AdminDetailVO adminDetailVO = new AdminDetailVO(admin.getId(), admin.getUsername(),
+                admin.getRole(), admin.getNickname(), admin.getEmail());
+
+        // 将管理员信息存入Redis中缓存
+        redisUtil.set(key, JSON.toJSONString(adminDetailVO), CacheConstant.EXPIRE_TIME);
+
+        return adminDetailVO;
     }
 
     // 修改密码

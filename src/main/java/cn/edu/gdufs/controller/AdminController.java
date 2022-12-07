@@ -75,13 +75,7 @@ public class AdminController extends BaseController {
     @GetMapping("/{id}")
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
     public AdminDetailVO getAdminDetail(@PathVariable long id) {
-        Admin admin = adminService.getAdminById(id);
-        if (admin == null) {
-            throw new ApiException("管理员不存在");
-        }
-        // 数据模型转换
-        return new AdminDetailVO(admin.getId(), admin.getUsername(),
-                admin.getRole(), admin.getNickname(), admin.getEmail());
+        return adminService.getAdminDetail(id);
     }
 
     /**
