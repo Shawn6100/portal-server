@@ -2,14 +2,13 @@ package cn.edu.gdufs.controller;
 
 import cn.edu.gdufs.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 /**
  * Description:
@@ -23,11 +22,15 @@ public class CommonController extends BaseController {
     @Autowired
     private FileUtil fileUtil;
 
+    @Value("${my-config.is-dev}")
+    private boolean isDev;
+    @Value("${my-config.remote-address}")
+    private String resourcesPrefix;
+
     @PostMapping("/upload")
-    public String uploadFile(HttpServletRequest request, MultipartFile file) throws URISyntaxException {
-        URI uri = new URI(request.getRequestURL().toString());
-        return new URI(uri.getScheme(), null, uri.getHost(), uri.getPort(),
-                "/upload", null, null) + "/" + fileUtil.upload(file);
+    public String uploadFile(HttpServletRequest request, MultipartFile file) {
+        return (isDev ? request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() : resourcesPrefix)
+                + "/upload/" + fileUtil.upload(file);
     }
 
 }
