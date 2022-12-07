@@ -21,4 +21,7 @@ public interface ActivityMapper {
 
     // 新增活动
     void insertActivity(Activity activity);
+
+    // 修改活动
+    void updateActivity(Activity activity);
 }

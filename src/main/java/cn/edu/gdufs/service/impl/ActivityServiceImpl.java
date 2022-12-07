@@ -33,4 +33,9 @@ public class ActivityServiceImpl implements ActivityService {
     public void insertActivity(Activity activity) {
         activityMapper.insertActivity(activity);
     }
+
+    @Override
+    public void updateActivity(Activity activity) {
+        activityMapper.updateActivity(activity);
+    }
 }

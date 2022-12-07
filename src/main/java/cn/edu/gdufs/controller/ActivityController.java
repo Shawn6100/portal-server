@@ -1,5 +1,6 @@
 package cn.edu.gdufs.controller;
 
+import cn.edu.gdufs.common.ApiResponse;
 import cn.edu.gdufs.config.interceptor.RequiredPermission;
 import cn.edu.gdufs.constant.RoleConstant;
 import cn.edu.gdufs.pojo.Activity;
@@ -46,5 +47,17 @@ public class ActivityController extends BaseController {
     public Activity insertActivity(@RequestBody @Valid Activity activity) {
         activityService.insertActivity(activity);
         return activity;
+    }
+
+    /**
+     * 修改活动
+     */
+    @PutMapping
+    public ApiResponse<Object> updateActivity(@RequestBody @Valid Activity activity) {
+        if (activity.getId() == null || activity.getId() < 1) {
+            return ApiResponse.paramError("id参数错误");
+        }
+        activityService.updateActivity(activity);
+        return ApiResponse.success();
     }
 }
