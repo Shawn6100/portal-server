@@ -36,6 +36,7 @@ public class ActivityController extends BaseController {
      * 查询活动详情
      */
     @GetMapping("/{id}")
+    @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
     public Activity getActivityDetail(@PathVariable long id) {
         return activityService.getActivityById(id);
     }
@@ -44,6 +45,7 @@ public class ActivityController extends BaseController {
      * 新增活动
      */
     @PostMapping
+    @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
     public Activity insertActivity(@RequestBody @Valid Activity activity) {
         activityService.insertActivity(activity);
         return activity;
@@ -53,6 +55,7 @@ public class ActivityController extends BaseController {
      * 修改活动
      */
     @PutMapping
+    @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
     public ApiResponse<Object> updateActivity(@RequestBody @Valid Activity activity) {
         if (activity.getId() == null || activity.getId() < 1) {
             return ApiResponse.paramError("id参数错误");
@@ -60,4 +63,5 @@ public class ActivityController extends BaseController {
         activityService.updateActivity(activity);
         return ApiResponse.success();
     }
+
 }
