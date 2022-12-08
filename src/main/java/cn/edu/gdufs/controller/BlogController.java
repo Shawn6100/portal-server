@@ -32,6 +32,28 @@ public class BlogController extends BaseController {
     private AdminService adminService;
 
     /**
+     * 查询文章详情
+     */
+    @GetMapping("/{id}")
+    @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
+    public BlogForAdminVO getBlogDetail(@PathVariable long id) {
+        Blog blog = blogService.getBlogById(id);
+        if (blog == null) {
+            throw new ApiException("文章id参数错误，文章不存在");
+        }
+
+        // 数据模型转换
+        BlogForAdminVO blogForAdminVO = new BlogForAdminVO();
+        BeanUtils.copyProperties(blog, blogForAdminVO);
+
+        // 查询创建用户和修改用户信息
+        blogForAdminVO.setCreateUser(adminService.getAdminDetail(blog.getCreateUserId()));
+        blogForAdminVO.setUpdateUser(adminService.getAdminDetail(blog.getUpdateUserId()));
+
+        return blogForAdminVO;
+    }
+
+    /**
      * 新增文章
      */
     @PostMapping
