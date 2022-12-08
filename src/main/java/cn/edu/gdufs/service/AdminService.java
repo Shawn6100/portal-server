@@ -33,7 +33,7 @@ public interface AdminService {
     void updatePassword(long id, String password);
 
     // 查询管理员列表
-    List<Admin> getAdminList();
+    List<Admin> getAdminList(int pageNumber, int pageSize);
 
     // 新增管理员
     Admin insertAdmin(Admin admin);
