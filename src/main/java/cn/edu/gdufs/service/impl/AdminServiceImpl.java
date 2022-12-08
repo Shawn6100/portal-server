@@ -11,6 +11,7 @@ import cn.edu.gdufs.util.MD5Util;
 import cn.edu.gdufs.util.RedisUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
 import com.mysql.cj.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -94,7 +95,8 @@ public class AdminServiceImpl implements AdminService {
 
     // 查询管理员列表
     @Override
-    public List<Admin> getAdminList() {
+    public List<Admin> getAdminList(int pageNumber, int pageSize) {
+        PageHelper.startPage(pageNumber, pageSize);
         return adminMapper.getAdminList();
     }
 
