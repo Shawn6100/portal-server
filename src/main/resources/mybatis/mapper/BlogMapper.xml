@@ -5,4 +5,9 @@
 
 <mapper namespace="cn.edu.gdufs.mapper.BlogMapper">
 
+    <insert id="insertBlog" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO blog(title, content, cover, create_user_id, update_user_id)
+        VALUES (#{title}, #{content}, #{cover}, #{createUserId}, #{updateUserId})
+    </insert>
+
 </mapper>

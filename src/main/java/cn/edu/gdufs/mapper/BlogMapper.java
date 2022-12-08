@@ -1,5 +1,6 @@
 package cn.edu.gdufs.mapper;
 
+import cn.edu.gdufs.pojo.Blog;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -9,4 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface BlogMapper {
+
+    // 新增文章
+    void insertBlog(Blog blog);
 }
