@@ -11,6 +11,9 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface BlogMapper {
 
+    // 根据id查询文章信息
+    Blog getBlogById(long id);
+
     // 新增文章
     void insertBlog(Blog blog);
 

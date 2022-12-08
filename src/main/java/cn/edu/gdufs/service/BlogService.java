@@ -9,6 +9,9 @@ import cn.edu.gdufs.pojo.Blog;
  */
 public interface BlogService {
 
+    // 根据id查询文章信息
+    Blog getBlogById(long id);
+
     // 新增文章
     void insertBlog(Blog blog, long userId);
 

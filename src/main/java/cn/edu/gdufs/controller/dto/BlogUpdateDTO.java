@@ -22,7 +22,7 @@ public class BlogUpdateDTO {
     /**
      * 文章id
      */
-    @NotNull(message = "id不能为空")
+    @NotNull(message = "文章id不能为空")
     @Min(value = 1, message = "文章id不能小于1")
     private Long id;
 

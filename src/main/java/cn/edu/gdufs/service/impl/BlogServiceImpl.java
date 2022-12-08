@@ -17,6 +17,12 @@ public class BlogServiceImpl implements BlogService {
     @Autowired
     private BlogMapper blogMapper;
 
+    // 根据id查询文章信息
+    @Override
+    public Blog getBlogById(long id) {
+        return blogMapper.getBlogById(id);
+    }
+
     // 新增文章
     @Override
     public void insertBlog(Blog blog, long userId) {

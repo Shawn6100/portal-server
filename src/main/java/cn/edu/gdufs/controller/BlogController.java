@@ -1,10 +1,12 @@
 package cn.edu.gdufs.controller;
 
+import cn.edu.gdufs.common.ApiResponse;
 import cn.edu.gdufs.config.interceptor.RequiredPermission;
 import cn.edu.gdufs.constant.RoleConstant;
 import cn.edu.gdufs.controller.dto.BlogUpdateDTO;
 import cn.edu.gdufs.controller.vo.AdminDetailVO;
 import cn.edu.gdufs.controller.vo.BlogForAdminVO;
+import cn.edu.gdufs.exception.ApiException;
 import cn.edu.gdufs.pojo.Admin;
 import cn.edu.gdufs.pojo.Blog;
 import cn.edu.gdufs.service.AdminService;
@@ -55,12 +57,23 @@ public class BlogController extends BaseController {
      */
     @PutMapping
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
-    public void updateBlog(@RequestBody @Valid BlogUpdateDTO blogUpdateDTO) {
+    public ApiResponse<Object> updateBlog(@RequestBody @Valid BlogUpdateDTO blogUpdateDTO) {
+        // 查询文章是否存在
+        Blog tempBlog = blogService.getBlogById(blogUpdateDTO.getId());
+        if (tempBlog == null) {
+            throw new ApiException("文章id参数错误，文章不存在");
+        }
+        // 权限拦截，普通管理员只能修改自己创建的文章
+        if (getUserRole() != RoleConstant.ROLE_SUPER_ADMIN && getUserId() != tempBlog.getCreateUserId()) {
+            return ApiResponse.permissionError();
+        }
+
         // 数据模型转换
         Blog blog = new Blog();
         BeanUtils.copyProperties(blogUpdateDTO, blog);
 
         // 修改文章
         blogService.updateBlog(blog, getUserId());
+        return ApiResponse.success();
     }
 }
