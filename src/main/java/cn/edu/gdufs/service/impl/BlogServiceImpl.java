@@ -92,4 +92,10 @@ public class BlogServiceImpl implements BlogService {
         // 修改文章
         blogMapper.updateBlog(blog);
     }
+
+    @Override
+    public void deleteBlog(long id) {
+        // 删除文章
+        blogMapper.deleteBlog(id);
+    }
 }

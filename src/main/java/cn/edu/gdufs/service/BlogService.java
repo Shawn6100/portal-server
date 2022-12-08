@@ -26,4 +26,7 @@ public interface BlogService {
 
     // 修改文章
     void updateBlog(Blog blog, long userId);
+
+    // 删除文章
+    void deleteBlog(long id);
 }

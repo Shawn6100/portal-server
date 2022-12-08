@@ -24,4 +24,7 @@ public interface BlogMapper {
 
     // 修改文章
     void updateBlog(Blog blog);
+
+    // 删除文章
+    void deleteBlog(long id);
 }

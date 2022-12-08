@@ -115,4 +115,13 @@ public class BlogController extends BaseController {
         blogService.updateBlog(blog, getUserId());
         return ApiResponse.success();
     }
+
+    /**
+     * 删除文章
+     */
+    @DeleteMapping("/{id}")
+    @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
+    public void deleteBlog(@PathVariable long id) {
+        blogService.deleteBlog(id);
+    }
 }
