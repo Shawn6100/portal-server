@@ -27,4 +27,12 @@ public class BlogServiceImpl implements BlogService {
         // 新增文章
         blogMapper.insertBlog(blog);
     }
+
+    @Override
+    public void updateBlog(Blog blog, long userId) {
+        // 设置修改用户id
+        blog.setUpdateUserId(userId);
+        // 修改文章
+        blogMapper.updateBlog(blog);
+    }
 }

@@ -10,4 +10,13 @@
         VALUES (#{title}, #{content}, #{cover}, #{createUserId}, #{updateUserId})
     </insert>
 
+    <update id="updateBlog">
+        UPDATE blog
+        SET title          = #{title},
+            content        = #{content},
+            cover          = #{cover},
+            update_user_id = #{updateUserId}
+        WHERE id = #{id}
+    </update>
+
 </mapper>

@@ -13,4 +13,7 @@ public interface BlogMapper {
 
     // 新增文章
     void insertBlog(Blog blog);
+
+    // 修改文章
+    void updateBlog(Blog blog);
 }

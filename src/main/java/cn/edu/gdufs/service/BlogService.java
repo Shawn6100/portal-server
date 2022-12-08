@@ -11,4 +11,7 @@ public interface BlogService {
 
     // 新增文章
     void insertBlog(Blog blog, long userId);
+
+    // 修改文章
+    void updateBlog(Blog blog, long userId);
 }

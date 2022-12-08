@@ -2,6 +2,7 @@ package cn.edu.gdufs.controller;
 
 import cn.edu.gdufs.config.interceptor.RequiredPermission;
 import cn.edu.gdufs.constant.RoleConstant;
+import cn.edu.gdufs.controller.dto.BlogUpdateDTO;
 import cn.edu.gdufs.controller.vo.AdminDetailVO;
 import cn.edu.gdufs.controller.vo.BlogForAdminVO;
 import cn.edu.gdufs.pojo.Admin;
@@ -47,5 +48,19 @@ public class BlogController extends BaseController {
                 admin.getRole(), admin.getNickname(), admin.getEmail()));
 
         return blogForAdminVO;
+    }
+
+    /**
+     * 修改文章
+     */
+    @PutMapping
+    @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
+    public void updateBlog(@RequestBody @Valid BlogUpdateDTO blogUpdateDTO) {
+        // 数据模型转换
+        Blog blog = new Blog();
+        BeanUtils.copyProperties(blogUpdateDTO, blog);
+
+        // 修改文章
+        blogService.updateBlog(blog, getUserId());
     }
 }
