@@ -25,6 +25,12 @@ mybatis:
     lazy-loading-enabled: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+
 # 该项目相关的配置属性（自行修改）
 my-config:
   # 文件上传存放的路径
