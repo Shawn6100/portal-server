@@ -1,5 +1,6 @@
 package cn.edu.gdufs.service;
 
+import cn.edu.gdufs.controller.vo.AdminDetailVO;
 import cn.edu.gdufs.pojo.Admin;
 
 import java.util.Collection;
@@ -25,11 +26,14 @@ public interface AdminService {
     // 根据用户id数组查询用户信息列表
     Map<Long, Admin> getAdminMapByIds(Collection<Long> ids);
 
+    // 查询管理员用户详情信息
+    AdminDetailVO getAdminDetail(long id);
+
     // 修改密码
     void updatePassword(long id, String password);
 
     // 查询管理员列表
-    List<Admin> getAdminList();
+    List<Admin> getAdminList(int pageNumber, int pageSize);
 
     // 新增管理员
     Admin insertAdmin(Admin admin);
