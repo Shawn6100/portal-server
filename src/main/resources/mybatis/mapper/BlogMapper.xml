@@ -5,6 +5,12 @@
 
 <mapper namespace="cn.edu.gdufs.mapper.BlogMapper">
 
+    <select id="getBlogList" resultType="Blog">
+        SELECT *
+        FROM blog
+        WHERE is_deleted = 0
+    </select>
+
     <select id="getBlogById" resultType="Blog">
         SELECT *
         FROM blog
