@@ -6,6 +6,7 @@ import cn.edu.gdufs.controller.dto.CarouselInsertDTO;
 import cn.edu.gdufs.controller.dto.CarouselUpdateDTO;
 import cn.edu.gdufs.controller.vo.AdminDetailVO;
 import cn.edu.gdufs.controller.vo.CarouselForAdminVO;
+import cn.edu.gdufs.exception.ApiException;
 import cn.edu.gdufs.pojo.Admin;
 import cn.edu.gdufs.pojo.Carousel;
 import cn.edu.gdufs.service.AdminService;
@@ -35,6 +36,7 @@ public class CarouselController extends BaseController {
      * 查询轮播图列表
      */
     @GetMapping()
+    @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
     public List<CarouselForAdminVO> getCarouselList() {
         List<Carousel> carousels = carouselService.getCarouselList();
 
@@ -62,6 +64,29 @@ public class CarouselController extends BaseController {
         }
 
         return voList;
+    }
+
+    /**
+     * 查询轮播图详情信息
+     */
+    @GetMapping("/{id}")
+    @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
+    public CarouselForAdminVO getCarouselDetail(@PathVariable long id) {
+        // 查询轮播图详情
+        Carousel carousel = carouselService.getCarouselDetail(id);
+        if (carousel == null) {
+            throw new ApiException("id参数错误，轮播图不存在");
+        }
+
+        // 数据模型转换
+        CarouselForAdminVO carouselForAdminVO = new CarouselForAdminVO();
+        BeanUtils.copyProperties(carousel, carouselForAdminVO);
+
+        // 添加创建者信息和修改者信息
+        carouselForAdminVO.setCreateUser(adminService.getAdminDetail(carousel.getCreateUserId()));
+        carouselForAdminVO.setUpdateUser(adminService.getAdminDetail(carousel.getUpdateUserId()));
+
+        return carouselForAdminVO;
     }
 
     /**

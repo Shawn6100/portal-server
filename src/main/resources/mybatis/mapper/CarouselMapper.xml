@@ -12,6 +12,12 @@
         ORDER BY priority DESC, id DESC
     </select>
 
+    <select id="getCarouselDetail" resultType="Carousel">
+        SELECT *
+        FROM carousel
+        WHERE id = #{id} AND is_deleted = 0
+    </select>
+
     <insert id="insertCarousel" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO carousel(content, path, priority, create_user_id, update_user_id)
         VALUES (#{content}, #{path}, #{priority}, #{createUserId}, #{updateUserId})

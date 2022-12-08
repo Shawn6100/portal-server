@@ -14,6 +14,9 @@ public interface CarouselService {
     // 查询轮播图列表
     List<Carousel> getCarouselList();
 
+    // 查询轮播图详情
+    Carousel getCarouselDetail(long id);
+
     // 新增轮播图
     void insertCarousel(Carousel carousel, long userId);
 

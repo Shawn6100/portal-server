@@ -25,6 +25,11 @@ public class CarouselServiceImpl implements CarouselService {
     }
 
     @Override
+    public Carousel getCarouselDetail(long id) {
+        return carouselMapper.getCarouselDetail(id);
+    }
+
+    @Override
     public void insertCarousel(Carousel carousel, long userId) {
         carousel.setCreateUserId(userId);
         carousel.setUpdateUserId(userId);
