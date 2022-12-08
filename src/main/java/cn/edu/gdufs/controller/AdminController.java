@@ -1,6 +1,7 @@
 package cn.edu.gdufs.controller;
 
 import cn.edu.gdufs.common.ApiResponse;
+import cn.edu.gdufs.common.PageResult;
 import cn.edu.gdufs.config.interceptor.RequiredPermission;
 import cn.edu.gdufs.constant.RoleConstant;
 import cn.edu.gdufs.controller.dto.AdminInsertDTO;
@@ -11,6 +12,7 @@ import cn.edu.gdufs.pojo.Admin;
 import cn.edu.gdufs.service.AdminService;
 import cn.edu.gdufs.util.MD5Util;
 import cn.edu.gdufs.util.TokenUtil;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -63,8 +65,13 @@ public class AdminController extends BaseController {
      */
     @GetMapping()
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
-    public List<Admin> getAdminList() {
-        return adminService.getAdminList();
+    public PageResult<Admin> getAdminList(@RequestParam(defaultValue = "1") Integer pageNumber,
+                                        @RequestParam(defaultValue = "5") Integer pageSize) {
+        // 封装分页结果
+        PageResult<Admin> result = new PageResult<>();
+        BeanUtils.copyProperties(PageInfo.of(adminService.getAdminList(pageNumber, pageSize)), result);
+
+        return result;
     }
 
     /**
@@ -75,13 +82,7 @@ public class AdminController extends BaseController {
     @GetMapping("/{id}")
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
     public AdminDetailVO getAdminDetail(@PathVariable long id) {
-        Admin admin = adminService.getAdminById(id);
-        if (admin == null) {
-            throw new ApiException("管理员不存在");
-        }
-        // 数据模型转换
-        return new AdminDetailVO(admin.getId(), admin.getUsername(),
-                admin.getRole(), admin.getNickname(), admin.getEmail());
+        return adminService.getAdminDetail(id);
     }
 
     /**

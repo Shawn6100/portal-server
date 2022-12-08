@@ -8,6 +8,9 @@ package cn.edu.gdufs.constant;
 public class CacheConstant {
     private CacheConstant() {}
 
-    public static final String TOKEN_KEY = "user_token_%s";
-    public static final String TOKEN_INFO = "%s_%s";
+    public static final long EXPIRE_TIME = 60 * 60 * 3;         // 通用缓存时间：三小时
+
+    public static final String TOKEN_KEY = "user_token_%s";     // 用户token
+    public static final String TOKEN_INFO = "%s_%s";            // token存储的信息
+    public static final String ADMIN_INFO = "admin_info_%s";    // 管理员用户详情信息
 }
