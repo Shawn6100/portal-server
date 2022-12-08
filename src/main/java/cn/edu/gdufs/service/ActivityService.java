@@ -19,4 +19,10 @@ public interface ActivityService {
 
     // 新增活动
     void insertActivity(Activity activity);
+
+    // 修改活动
+    void updateActivity(Activity activity);
+
+    // 删除活动
+    void deleteActivity(long id);
 }

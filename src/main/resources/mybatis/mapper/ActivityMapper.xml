@@ -23,4 +23,17 @@
         VALUES (#{title}, #{content}, #{path}, #{priority}, #{time}, #{href})
     </insert>
 
+    <update id="updateActivity">
+        UPDATE activity
+        SET title = #{title}, content = #{content}, path = #{path},
+            priority = #{priority}, time = #{time}, href = #{href}
+        WHERE id = #{id}
+    </update>
+
+    <update id="deleteActivity">
+        UPDATE activity
+        SET is_deleted = 1
+        WHERE id = #{id}
+    </update>
+
 </mapper>
