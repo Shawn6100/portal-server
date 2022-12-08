@@ -3,6 +3,8 @@ package cn.edu.gdufs.mapper;
 import cn.edu.gdufs.pojo.Blog;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * Description:
  * Author: 严仕鹏
@@ -10,6 +12,9 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface BlogMapper {
+
+    // 查询所有文章列表
+    List<Blog> getBlogList();
 
     // 根据id查询文章信息
     Blog getBlogById(long id);
@@ -19,4 +24,7 @@ public interface BlogMapper {
 
     // 修改文章
     void updateBlog(Blog blog);
+
+    // 删除文章
+    void deleteBlog(long id);
 }
