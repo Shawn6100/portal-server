@@ -43,12 +43,12 @@ public class Blog {
    * 文章创建用户id
    */
   @Min(value = 0, message = "文章创建用户id不能小于1")
-  private Long createUser;
+  private Long createUserId;
 
   /**
    * 文章最后修改用户id
    */
   @Min(value = 0, message = "文章最后修改用户id不能小于1")
-  private Long updateUser;
+  private Long updateUserId;
 
 }
