@@ -38,4 +38,9 @@ public class ActivityServiceImpl implements ActivityService {
     public void updateActivity(Activity activity) {
         activityMapper.updateActivity(activity);
     }
+
+    @Override
+    public void deleteActivity(long id) {
+        activityMapper.deleteActivity(id);
+    }
 }

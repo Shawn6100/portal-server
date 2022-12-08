@@ -64,4 +64,12 @@ public class ActivityController extends BaseController {
         return ApiResponse.success();
     }
 
+    /**
+     * 删除活动
+     */
+    @DeleteMapping("/{id}")
+    public void deleteActivity(@PathVariable long id) {
+        activityService.deleteActivity(id);
+    }
+
 }

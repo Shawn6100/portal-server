@@ -22,4 +22,7 @@ public interface ActivityService {
 
     // 修改活动
     void updateActivity(Activity activity);
+
+    // 删除活动
+    void deleteActivity(long id);
 }
