@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
@@ -51,6 +52,7 @@ public class MailUtil {
      * @param recipient 接收邮箱
      * @param verificationCode 验证码
      */
+    @Async("taskExecutor")  // 异步发送邮件
     public void sendForgetPasswordVerificationMail(String recipient, String verificationCode) {
         String title = "【广外Qt官网展示系统】忘记密码验证码";
         String template = "你正在修改【广外Qt官网展示系统】登录密码，你的验证码为 %s ，5分钟内有效。";
