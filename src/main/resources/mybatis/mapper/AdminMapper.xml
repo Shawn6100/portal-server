@@ -23,7 +23,6 @@
         SELECT *
         FROM admin
         WHERE id = #{id}
-          AND is_deleted = 0
     </select>
 
     <select id="getAdminListByIds" resultType="Admin">
