@@ -48,12 +48,19 @@ public class AdminServiceImpl implements AdminService {
         return admin == null || !admin.getPassword().equals(MD5Util.encode(password, admin.getSalt()));
     }
 
+    // 根据用户邮箱查询用户信息
+    @Override
+    public Admin getAdminByEmail(String email) {
+        return adminMapper.getAdminByEmail(email);
+    }
+
     // 根据用户id查询用户信息
     @Override
     public Admin getAdminById(long id) {
         return adminMapper.getAdminById(id);
     }
 
+    // 根据用户id数组查询用户信息列表
     @Override
     public AdminDetailVO getAdminDetail(long id) {
         // 先从Redis中查询

@@ -55,7 +55,7 @@ public class MailUtil {
     @Async("taskExecutor")  // 异步发送邮件
     public void sendForgetPasswordVerificationMail(String recipient, String verificationCode) {
         String title = "【广外Qt官网展示系统】忘记密码验证码";
-        String template = "你正在修改【广外Qt官网展示系统】登录密码，你的验证码为 %s ，5分钟内有效。";
+        String template = "您正在修改【广外Qt官网展示系统】登录密码，您的验证码为 %s ，5分钟内有效。";
         String mailBody = String.format(template, verificationCode);
         sendMail(new String[]{recipient}, title, mailBody);
     }

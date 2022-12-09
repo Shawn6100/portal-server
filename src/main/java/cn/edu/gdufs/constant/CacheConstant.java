@@ -13,4 +13,6 @@ public class CacheConstant {
     public static final String TOKEN_KEY = "user_token_%s";     // 用户token
     public static final String TOKEN_INFO = "%s_%s";            // token存储的信息
     public static final String ADMIN_INFO = "admin_info_%s";    // 管理员用户详情信息
+
+    public static final String ADMIN_FORGET_PASSWORD_CODE = "admin_forget_password_code_%s";
 }
