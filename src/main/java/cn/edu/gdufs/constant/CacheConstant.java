@@ -14,5 +14,6 @@ public class CacheConstant {
     public static final String TOKEN_INFO = "%s_%s";            // token存储的信息
     public static final String ADMIN_INFO = "admin_info_%s";    // 管理员用户详情信息
 
-    public static final String ADMIN_FORGET_PASSWORD_CODE = "admin_forget_password_code_%s";
+    public static final String ADMIN_FORGET_PASSWORD_CODE = "admin_forget_password_code_%s";    // 管理员忘记密码验证码
+    public static final String EMAIL_LOCK = "email_lock_%s";    // 邮件发送锁
 }

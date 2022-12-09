@@ -36,12 +36,21 @@ public class CommonServiceImpl implements CommonService {
             throw new ApiException("该邮箱不存在");
         }
 
+        // 检测是否频繁操作
+        String lock = String.format(CacheConstant.EMAIL_LOCK, email);
+        if (redisUtil.hasKey(lock)) {
+            throw new ApiException("操作频繁，请稍后重试");
+        }
+
         // 获取邮箱验证码
         String verificationCode = mailUtil.getVerificationCode();
 
         // 将验证码存入Redis
         String key = String.format(CacheConstant.ADMIN_FORGET_PASSWORD_CODE, email);
         redisUtil.set(key, verificationCode, 5 * 60 + 10);  // 过期时间五分钟
+
+        // 邮件发送锁
+        redisUtil.set(String.format(lock, email), 1, 30);
 
         // 发送邮件
         mailUtil.sendForgetPasswordVerificationMail(email, verificationCode);
