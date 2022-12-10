@@ -1,21 +1,23 @@
 package cn.edu.gdufs.controller;
 
+import cn.edu.gdufs.common.PageResult;
 import cn.edu.gdufs.config.interceptor.RequiredPermission;
 import cn.edu.gdufs.constant.RoleConstant;
 import cn.edu.gdufs.controller.dto.CarouselInsertDTO;
 import cn.edu.gdufs.controller.dto.CarouselUpdateDTO;
 import cn.edu.gdufs.controller.vo.AdminDetailVO;
 import cn.edu.gdufs.controller.vo.CarouselForAdminVO;
-import cn.edu.gdufs.exception.ApiException;
 import cn.edu.gdufs.pojo.Admin;
 import cn.edu.gdufs.pojo.Carousel;
 import cn.edu.gdufs.service.AdminService;
 import cn.edu.gdufs.service.CarouselService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.*;
 
 /**
@@ -25,6 +27,7 @@ import java.util.*;
  */
 @RestController
 @RequestMapping("/carousel")
+@Validated
 public class CarouselController extends BaseController {
 
     @Autowired
@@ -34,49 +37,37 @@ public class CarouselController extends BaseController {
 
     /**
      * 查询轮播图列表
+     *
+     * @param pageNumber 页码
+     * @param pageSize   页面大小
+     * @return 轮播图VO列表
      */
     @GetMapping()
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
-    public List<CarouselForAdminVO> getCarouselList() {
-        List<Carousel> carousels = carouselService.getCarouselList();
+    public PageResult<CarouselForAdminVO> getCarouselList(@RequestParam(defaultValue = "1") Integer pageNumber,
+                                                          @RequestParam(defaultValue = "5") Integer pageSize) {
+        // 分页查询轮播图列表
+        List<Carousel> carouselList = carouselService.getCarouselList(pageNumber, pageSize);
+        PageResult<CarouselForAdminVO> result = new PageResult<>();
+        BeanUtils.copyProperties(carouselList, result);
 
-        Set<Long> adminIds = new HashSet<>();
-        for (Carousel carousel : carousels) {
-            adminIds.add(carousel.getCreateUserId());
-            adminIds.add(carousel.getUpdateUserId());
-        }
-        Map<Long, Admin> adminMap = adminService.getAdminMapByIds(adminIds);
+        // 将轮播图列表转换为轮播图VO列表
+        result.setList(carouselService.getCarouselVOList(carouselList));
 
-        List<CarouselForAdminVO> voList = new ArrayList<>();
-        for (Carousel carousel : carousels) {
-            CarouselForAdminVO carouselVO = new CarouselForAdminVO();
-            BeanUtils.copyProperties(carousel, carouselVO);
-
-            AdminDetailVO createUser = new AdminDetailVO();
-            BeanUtils.copyProperties(adminMap.get(carousel.getCreateUserId()), createUser);
-            carouselVO.setCreateUser(createUser);
-
-            AdminDetailVO updateUser = new AdminDetailVO();
-            BeanUtils.copyProperties(adminMap.get(carousel.getUpdateUserId()), updateUser);
-            carouselVO.setUpdateUser(updateUser);
-
-            voList.add(carouselVO);
-        }
-
-        return voList;
+        return result;
     }
 
     /**
      * 查询轮播图详情信息
+     *
+     * @param id 轮播图id
+     * @return 轮播图详情信息
      */
     @GetMapping("/{id}")
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
-    public CarouselForAdminVO getCarouselDetail(@PathVariable long id) {
+    public CarouselForAdminVO getCarouselDetail(@Min(value = 1, message = "轮播图id不能小于1") @PathVariable long id) {
         // 查询轮播图详情
         Carousel carousel = carouselService.getCarouselDetail(id);
-        if (carousel == null) {
-            throw new ApiException("id参数错误，轮播图不存在");
-        }
 
         // 数据模型转换
         CarouselForAdminVO carouselForAdminVO = new CarouselForAdminVO();
@@ -91,6 +82,9 @@ public class CarouselController extends BaseController {
 
     /**
      * 新增轮播图
+     *
+     * @param carouselInsertDTO 新增轮播图DTO
+     * @return 新增轮播图的信息
      */
     @PostMapping()
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
@@ -117,6 +111,8 @@ public class CarouselController extends BaseController {
 
     /**
      * 修改轮播图
+     *
+     * @param carouselUpdateDTO 修改轮播图DTO
      */
     @PutMapping()
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
@@ -131,10 +127,12 @@ public class CarouselController extends BaseController {
 
     /**
      * 删除轮播图
+     *
+     * @param id 轮播图id
      */
     @DeleteMapping("/{id}")
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
-    public void deleteCarousel(@PathVariable long id) {
+    public void deleteCarousel(@Min(value = 1, message = "轮播图id不能小于1") @PathVariable long id) {
         carouselService.deleteCarousel(id);
     }
 
