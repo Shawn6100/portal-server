@@ -16,4 +16,6 @@ public class CacheConstant {
 
     public static final String ADMIN_FORGET_PASSWORD_CODE = "admin_forget_password_code_%s";    // 管理员忘记密码验证码
     public static final String EMAIL_LOCK = "email_lock_%s";    // 邮件发送锁
+
+    public static final String CAROUSEL_INFO = "carousel_info_%s";  // 轮播图详情信息
 }
