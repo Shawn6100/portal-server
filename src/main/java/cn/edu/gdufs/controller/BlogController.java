@@ -65,9 +65,6 @@ public class BlogController extends BaseController {
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
     public BlogForAdminVO getBlogDetail(@Min(value = 1, message = "文章id不能小于1") @PathVariable long id) {
         Blog blog = blogService.getBlogById(id);
-        if (blog == null) {
-            throw new ApiException("文章id参数错误，文章不存在");
-        }
 
         // 数据模型转换
         BlogForAdminVO blogForAdminVO = new BlogForAdminVO();

@@ -1,12 +1,17 @@
 package cn.edu.gdufs.service.impl;
 
+import cn.edu.gdufs.constant.CacheConstant;
 import cn.edu.gdufs.controller.vo.AdminDetailVO;
 import cn.edu.gdufs.controller.vo.BlogForAdminVO;
+import cn.edu.gdufs.exception.ApiException;
 import cn.edu.gdufs.mapper.BlogMapper;
 import cn.edu.gdufs.pojo.Admin;
 import cn.edu.gdufs.pojo.Blog;
 import cn.edu.gdufs.service.AdminService;
 import cn.edu.gdufs.service.BlogService;
+import cn.edu.gdufs.util.RedisUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +31,8 @@ public class BlogServiceImpl implements BlogService {
     private BlogMapper blogMapper;
     @Autowired
     private AdminService adminService;
+    @Autowired
+    private RedisUtil redisUtil;
 
     @Override
     public List<Blog> getBlogList(int pageNumber, int pageSize) {
@@ -69,7 +76,23 @@ public class BlogServiceImpl implements BlogService {
     // 根据id查询文章信息
     @Override
     public Blog getBlogById(long id) {
-        return blogMapper.getBlogById(id);
+        // 先从 Redis 中查询数据
+        String key = String.format(CacheConstant.BLOG_INFO, id);
+        String blogString = (String) redisUtil.get(key);
+        if (blogString != null){
+            return JSONObject.parseObject(blogString, Blog.class);
+        }
+
+        // 从 MySQL 中查询
+        Blog blog = blogMapper.getBlogById(id);
+        if (blog == null) {
+            throw new ApiException("文章id参数错误，文章不存在");
+        }
+
+        // 存入 Redis
+        redisUtil.set(key, JSON.toJSONString(blog), CacheConstant.EXPIRE_TIME);
+
+        return blog;
     }
 
     // 新增文章
