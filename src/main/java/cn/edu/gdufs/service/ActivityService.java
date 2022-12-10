@@ -12,7 +12,7 @@ import java.util.List;
 public interface ActivityService {
 
     // 查询活动列表
-    List<Activity> getActivityList();
+    List<Activity> getActivityList(int pageNumber, int pageSize);
 
     // 根据id查询活动信息
     Activity getActivityById(long id);

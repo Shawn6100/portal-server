@@ -1,15 +1,20 @@
 package cn.edu.gdufs.controller;
 
-import cn.edu.gdufs.common.ApiResponse;
+import cn.edu.gdufs.common.PageResult;
 import cn.edu.gdufs.config.interceptor.RequiredPermission;
 import cn.edu.gdufs.constant.RoleConstant;
+import cn.edu.gdufs.controller.dto.ActivityInsertDTO;
+import cn.edu.gdufs.controller.dto.ActivityUpdateDTO;
 import cn.edu.gdufs.pojo.Activity;
 import cn.edu.gdufs.service.ActivityService;
+import com.github.pagehelper.PageInfo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
+import javax.validation.constraints.Min;
 
 /**
  * Description:
@@ -18,6 +23,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/activity")
+@Validated
 public class ActivityController extends BaseController {
 
     @Autowired
@@ -25,50 +31,73 @@ public class ActivityController extends BaseController {
 
     /**
      * 查询活动列表
+     *
+     * @param pageNumber 页码
+     * @param pageSize   页面大小
+     * @return 分页活动列表
      */
     @GetMapping
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
-    public List<Activity> getActivityList() {
-        return activityService.getActivityList();
+    public PageResult<Activity> getActivityList(@RequestParam(defaultValue = "1") Integer pageNumber,
+                                                @RequestParam(defaultValue = "5") Integer pageSize) {
+        PageResult<Activity> result = new PageResult<>();
+        BeanUtils.copyProperties(PageInfo.of(activityService.getActivityList(pageNumber, pageSize)), result);
+        return result;
     }
 
     /**
      * 查询活动详情
+     *
+     * @param id 活动id
+     * @return 活动详情
      */
     @GetMapping("/{id}")
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
-    public Activity getActivityDetail(@PathVariable long id) {
+    public Activity getActivityDetail(@Min(value = 1, message = "id不能小于1") @PathVariable long id) {
         return activityService.getActivityById(id);
     }
 
     /**
      * 新增活动
+     *
+     * @param activityInsertDTO 新增活动DTO
+     * @return 新增活动信息
      */
     @PostMapping
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
-    public Activity insertActivity(@RequestBody @Valid Activity activity) {
+    public Activity insertActivity(@RequestBody @Valid ActivityInsertDTO activityInsertDTO) {
+        // 数据模型转换
+        Activity activity = new Activity();
+        BeanUtils.copyProperties(activityInsertDTO, activity);
+
+        // 新增活动
         activityService.insertActivity(activity);
         return activity;
     }
 
     /**
      * 修改活动
+     *
+     * @param activityUpdateDTO 修改活动DTO
      */
     @PutMapping
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
-    public ApiResponse<Object> updateActivity(@RequestBody @Valid Activity activity) {
-        if (activity.getId() == null || activity.getId() < 1) {
-            return ApiResponse.paramError("id参数错误");
-        }
+    public void updateActivity(@RequestBody @Valid ActivityUpdateDTO activityUpdateDTO) {
+        // 数据模型转换
+        Activity activity = new Activity();
+        BeanUtils.copyProperties(activityUpdateDTO, activity);
+
+        // 修改活动
         activityService.updateActivity(activity);
-        return ApiResponse.success();
     }
 
     /**
      * 删除活动
+     *
+     * @param id 活动id
      */
     @DeleteMapping("/{id}")
-    public void deleteActivity(@PathVariable long id) {
+    public void deleteActivity(@Min(value = 1, message = "id不能小于1") @PathVariable long id) {
         activityService.deleteActivity(id);
     }
 
