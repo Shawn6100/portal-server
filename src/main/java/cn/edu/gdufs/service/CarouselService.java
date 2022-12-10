@@ -1,5 +1,6 @@
 package cn.edu.gdufs.service;
 
+import cn.edu.gdufs.controller.vo.CarouselForAdminVO;
 import cn.edu.gdufs.pojo.Carousel;
 
 import java.util.List;
@@ -11,8 +12,11 @@ import java.util.List;
  */
 public interface CarouselService {
 
-    // 查询轮播图列表
-    List<Carousel> getCarouselList();
+    // 分页查询轮播图列表
+    List<Carousel> getCarouselList(int pageNumber, int pageSize);
+
+    // 将轮播图列表转换为轮播图VO列表
+    List<CarouselForAdminVO> getCarouselVOList(List<Carousel> carousels);
 
     // 查询轮播图详情
     Carousel getCarouselDetail(long id);
