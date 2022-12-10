@@ -19,4 +19,5 @@ public class CacheConstant {
 
     public static final String CAROUSEL_INFO = "carousel_info_%s";  // 轮播图详情信息
     public static final String ACTIVITY_INFO = "activity_info_%s";  // 活动详情信息
+    public static final String BLOG_INFO = "blog_info_%s";      // 文章详情信息
 }

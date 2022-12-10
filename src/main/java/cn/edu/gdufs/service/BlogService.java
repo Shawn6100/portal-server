@@ -15,8 +15,8 @@ public interface BlogService {
     // 查询所有文章列表
     List<Blog> getBlogList(int pageNumber, int pageSize);
 
-    // 获取文章VO列表
-    List<BlogForAdminVO> getBlogVOList(int pageNumber, int pageSize);
+    // 将文章列表转换为文章VO列表
+    List<BlogForAdminVO> getBlogVOList(List<Blog> blogList);
 
     // 根据id查询文章信息
     Blog getBlogById(long id);
