@@ -1,6 +1,7 @@
 package cn.edu.gdufs.controller;
 
 import cn.edu.gdufs.common.ApiResponse;
+import cn.edu.gdufs.common.PageResult;
 import cn.edu.gdufs.config.interceptor.RequiredPermission;
 import cn.edu.gdufs.constant.RoleConstant;
 import cn.edu.gdufs.controller.dto.BlogUpdateDTO;
@@ -11,11 +12,13 @@ import cn.edu.gdufs.pojo.Admin;
 import cn.edu.gdufs.pojo.Blog;
 import cn.edu.gdufs.service.AdminService;
 import cn.edu.gdufs.service.BlogService;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.*;
 
 /**
  * Description:
@@ -30,6 +33,20 @@ public class BlogController extends BaseController {
     private BlogService blogService;
     @Autowired
     private AdminService adminService;
+
+    /**
+     * 查询所有文章列表
+     */
+    @GetMapping
+    @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
+    public PageResult<BlogForAdminVO> getBlogList(@RequestParam(defaultValue = "1") Integer pageNumber,
+                                                  @RequestParam(defaultValue = "5") Integer pageSize) {
+        PageResult<BlogForAdminVO> result = new PageResult<>();
+        // 分页查询文章列表，并风找到PageResult中
+        BeanUtils.copyProperties(PageInfo.of(blogService.getBlogVOList(pageNumber, pageSize)), result);
+
+        return result;
+    }
 
     /**
      * 查询文章详情
@@ -97,5 +114,14 @@ public class BlogController extends BaseController {
         // 修改文章
         blogService.updateBlog(blog, getUserId());
         return ApiResponse.success();
+    }
+
+    /**
+     * 删除文章
+     */
+    @DeleteMapping("/{id}")
+    @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
+    public void deleteBlog(@PathVariable long id) {
+        blogService.deleteBlog(id);
     }
 }

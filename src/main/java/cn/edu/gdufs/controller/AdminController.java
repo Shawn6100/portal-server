@@ -13,12 +13,15 @@ import cn.edu.gdufs.service.AdminService;
 import cn.edu.gdufs.util.MD5Util;
 import cn.edu.gdufs.util.TokenUtil;
 import com.github.pagehelper.PageInfo;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 
 /**
  * Description:
@@ -27,6 +30,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/admin")
+@Validated
 public class AdminController extends BaseController {
 
     @Autowired
@@ -41,12 +45,22 @@ public class AdminController extends BaseController {
      * @return token
      */
     @PostMapping("/login")
-    public String adminLogin(String username, String password) {
+    public String adminLogin(@NotBlank(message = "用户名不能为空") String  username,
+                             @NotBlank(message = "密码不能为空") String password) {
         // 校验用户名和密码
         Admin admin = adminService.login(username, password);
 
         // 发放token
         return tokenUtil.grantToken(admin.getId(), admin.getRole());
+    }
+
+    /**
+     * 管理员获取个人信息接口
+     */
+    @GetMapping("/info")
+    @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
+    public AdminDetailVO getAdminInfo() {
+        return adminService.getAdminDetail(getUserId());
     }
 
     /**
@@ -81,7 +95,7 @@ public class AdminController extends BaseController {
      */
     @GetMapping("/{id}")
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
-    public AdminDetailVO getAdminDetail(@PathVariable long id) {
+    public AdminDetailVO getAdminDetail(@Min(value = 1, message = "管理员id不能小于1") @PathVariable long id) {
         return adminService.getAdminDetail(id);
     }
 
@@ -135,10 +149,7 @@ public class AdminController extends BaseController {
      */
     @DeleteMapping("/{id}")
     @RequiredPermission(RoleConstant.ROLE_SUPER_ADMIN)
-    public ApiResponse<Object> deleteAdmin(@PathVariable long id) {
-        if (id <= 0) {
-            return ApiResponse.paramError("管理员id不能小于1");
-        }
+    public ApiResponse<Object> deleteAdmin(@Min(value = 1, message = "管理员id不能小于1") @PathVariable long id) {
         // 防止超级管理员删除自己
         if (id == getUserId()) {
             return ApiResponse.fail("非法操作");
@@ -154,10 +165,9 @@ public class AdminController extends BaseController {
      */
     @PutMapping("/password")
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
-    public void updatePassword(String oldPassword, String newPassword) {
-        if (newPassword == null || "".equals(newPassword)) {
-            throw new ApiException("密码不能为空");
-        }
+    public void updatePassword(@NotBlank(message = "原密码不能为空") String oldPassword,
+                               @Length(min = 6, message = "密码长度不能小于6位")
+                               @NotBlank(message = "密码不能为空") String newPassword) {
         Admin admin = adminService.getAdminById(getUserId());
         // 判断原密码是否正确
         if (adminService.checkPassword(admin, oldPassword)) {

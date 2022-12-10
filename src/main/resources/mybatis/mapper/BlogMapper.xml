@@ -5,6 +5,12 @@
 
 <mapper namespace="cn.edu.gdufs.mapper.BlogMapper">
 
+    <select id="getBlogList" resultType="Blog">
+        SELECT *
+        FROM blog
+        WHERE is_deleted = 0
+    </select>
+
     <select id="getBlogById" resultType="Blog">
         SELECT *
         FROM blog
@@ -22,6 +28,12 @@
             content        = #{content},
             cover          = #{cover},
             update_user_id = #{updateUserId}
+        WHERE id = #{id}
+    </update>
+
+    <update id="deleteBlog">
+        UPDATE blog
+        SET is_deleted = 1
         WHERE id = #{id}
     </update>
 

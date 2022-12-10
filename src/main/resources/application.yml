@@ -16,6 +16,12 @@ spring:
         max-idle: 8
         min-idle: 1
         max-wait: 1000
+  mail:
+    host: smtp.163.com
+    port: 465
+    protocol: smtps
+    username: yourEmailAddress@163.com
+    password: yourSecretCode
 
 mybatis:
   type-aliases-package: cn.edu.gdufs.pojo

@@ -9,7 +9,10 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import javax.xml.bind.ValidationException;
+import java.util.Set;
 
 /**
  * Description: 全局异常处理
@@ -49,6 +52,20 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ValidationException.class)
     public ApiResponse<Object> validationExceptionResult(ValidationException e) {
         return ApiResponse.paramError(String.format("参数校验错误。[%s]", e.getMessage()));
+    }
+
+    /**
+     * 处理参数校验异常异常
+     */
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ApiResponse<Object> constraintViolationExceptionResult(ConstraintViolationException e) {
+        Set<ConstraintViolation<?>> constraintViolations = e.getConstraintViolations();
+        StringBuffer sb = new StringBuffer();
+        for (ConstraintViolation<?> constraintViolation : constraintViolations) {
+            sb.append(constraintViolation.getMessage()).append("；");
+            constraintViolation.getMessage();
+        }
+        return ApiResponse.paramError(String.format("参数校验错误。[%s]", sb.delete(sb.length() - 1, sb.length())));
     }
 
     /**

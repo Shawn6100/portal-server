@@ -20,6 +20,9 @@ public interface AdminService {
     // 校验用户名和密码是否错误
     boolean checkPassword(Admin admin, String password);
 
+    // 根据用户邮箱查询用户信息
+    Admin getAdminByEmail(String email);
+
     // 根据用户id查询用户信息
     Admin getAdminById(long id);
 
