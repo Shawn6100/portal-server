@@ -1,15 +1,17 @@
 package cn.edu.gdufs.controller;
 
 import cn.edu.gdufs.common.ApiResponse;
+import cn.edu.gdufs.common.PageResult;
 import cn.edu.gdufs.config.interceptor.RequiredPermission;
 import cn.edu.gdufs.constant.RoleConstant;
 import cn.edu.gdufs.pojo.Activity;
 import cn.edu.gdufs.service.ActivityService;
+import com.github.pagehelper.PageInfo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * Description:
@@ -28,8 +30,11 @@ public class ActivityController extends BaseController {
      */
     @GetMapping
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
-    public List<Activity> getActivityList() {
-        return activityService.getActivityList();
+    public PageResult<Activity> getActivityList(@RequestParam(defaultValue = "1") Integer pageNumber,
+                                                @RequestParam(defaultValue = "5") Integer pageSize) {
+        PageResult<Activity> result = new PageResult<>();
+        BeanUtils.copyProperties(PageInfo.of(activityService.getActivityList(pageNumber, pageSize)), result);
+        return result;
     }
 
     /**

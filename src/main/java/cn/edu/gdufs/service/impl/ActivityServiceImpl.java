@@ -3,6 +3,7 @@ package cn.edu.gdufs.service.impl;
 import cn.edu.gdufs.mapper.ActivityMapper;
 import cn.edu.gdufs.pojo.Activity;
 import cn.edu.gdufs.service.ActivityService;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,8 @@ public class ActivityServiceImpl implements ActivityService {
     private ActivityMapper activityMapper;
 
     @Override
-    public List<Activity> getActivityList() {
+    public List<Activity> getActivityList(int pageNumber, int pageSize) {
+        PageHelper.startPage(pageNumber, pageSize);
         return activityMapper.getActivityList();
     }
 
