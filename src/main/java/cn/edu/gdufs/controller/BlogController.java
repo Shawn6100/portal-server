@@ -40,6 +40,10 @@ public class BlogController extends BaseController {
 
     /**
      * 查询所有文章列表
+     *
+     * @param pageNumber 页码
+     * @param pageSize   页面大小
+     * @return 文章VO列表
      */
     @GetMapping
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
@@ -60,6 +64,9 @@ public class BlogController extends BaseController {
 
     /**
      * 查询文章详情
+     *
+     * @param id 文章id
+     * @return 文章VO
      */
     @GetMapping("/{id}")
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
@@ -79,6 +86,9 @@ public class BlogController extends BaseController {
 
     /**
      * 新增文章
+     *
+     * @param blogInsertDTO 新增文章DTO
+     * @return 新增文章信息
      */
     @PostMapping
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
@@ -104,6 +114,9 @@ public class BlogController extends BaseController {
 
     /**
      * 修改文章
+     *
+     * @param blogUpdateDTO 修改文章DTO
+     * @return 修改文章的信息
      */
     @PutMapping
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
@@ -129,6 +142,8 @@ public class BlogController extends BaseController {
 
     /**
      * 删除文章
+     *
+     * @param id 文章id
      */
     @DeleteMapping("/{id}")
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})

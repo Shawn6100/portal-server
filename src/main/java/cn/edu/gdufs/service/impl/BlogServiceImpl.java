@@ -34,6 +34,7 @@ public class BlogServiceImpl implements BlogService {
     @Autowired
     private RedisUtil redisUtil;
 
+    // 查询所有文章列表
     @Override
     public List<Blog> getBlogList(int pageNumber, int pageSize) {
         // 开启分页
@@ -41,6 +42,7 @@ public class BlogServiceImpl implements BlogService {
         return blogMapper.getBlogList();
     }
 
+    // 将文章列表转换为文章VO列表
     @Override
     public List<BlogForAdminVO> getBlogVOList(List<Blog> blogList) {
         // 根据管理员id数组获取管理员信息列表
