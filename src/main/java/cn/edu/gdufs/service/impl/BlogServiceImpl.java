@@ -118,9 +118,12 @@ public class BlogServiceImpl implements BlogService {
         redisUtil.del(String.format(CacheConstant.BLOG_INFO, blog.getId()));
     }
 
+    // 删除文章
     @Override
     public void deleteBlog(long id) {
         // 删除文章
         blogMapper.deleteBlog(id);
+        // 删除 Redis 中的缓存信息
+        redisUtil.del(String.format(CacheConstant.BLOG_INFO, id));
     }
 }
