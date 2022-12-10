@@ -1,10 +1,10 @@
 package cn.edu.gdufs.controller;
 
-import cn.edu.gdufs.common.ApiResponse;
 import cn.edu.gdufs.common.PageResult;
 import cn.edu.gdufs.config.interceptor.RequiredPermission;
 import cn.edu.gdufs.constant.RoleConstant;
 import cn.edu.gdufs.controller.dto.ActivityInsertDTO;
+import cn.edu.gdufs.controller.dto.ActivityUpdateDTO;
 import cn.edu.gdufs.pojo.Activity;
 import cn.edu.gdufs.service.ActivityService;
 import com.github.pagehelper.PageInfo;
@@ -70,12 +70,13 @@ public class ActivityController extends BaseController {
      */
     @PutMapping
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
-    public ApiResponse<Object> updateActivity(@RequestBody @Valid Activity activity) {
-        if (activity.getId() == null || activity.getId() < 1) {
-            return ApiResponse.paramError("id参数错误");
-        }
+    public void updateActivity(@RequestBody @Valid ActivityUpdateDTO activityUpdateDTO) {
+        // 数据模型转换
+        Activity activity = new Activity();
+        BeanUtils.copyProperties(activityUpdateDTO, activity);
+
+        // 修改活动
         activityService.updateActivity(activity);
-        return ApiResponse.success();
     }
 
     /**
