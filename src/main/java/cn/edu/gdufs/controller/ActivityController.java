@@ -4,6 +4,7 @@ import cn.edu.gdufs.common.ApiResponse;
 import cn.edu.gdufs.common.PageResult;
 import cn.edu.gdufs.config.interceptor.RequiredPermission;
 import cn.edu.gdufs.constant.RoleConstant;
+import cn.edu.gdufs.controller.dto.ActivityInsertDTO;
 import cn.edu.gdufs.pojo.Activity;
 import cn.edu.gdufs.service.ActivityService;
 import com.github.pagehelper.PageInfo;
@@ -54,7 +55,12 @@ public class ActivityController extends BaseController {
      */
     @PostMapping
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
-    public Activity insertActivity(@RequestBody @Valid Activity activity) {
+    public Activity insertActivity(@RequestBody @Valid ActivityInsertDTO activityInsertDTO) {
+        // 数据模型转换
+        Activity activity = new Activity();
+        BeanUtils.copyProperties(activityInsertDTO, activity);
+
+        // 新增活动
         activityService.insertActivity(activity);
         return activity;
     }
