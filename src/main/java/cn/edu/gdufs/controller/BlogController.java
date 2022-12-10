@@ -4,6 +4,7 @@ import cn.edu.gdufs.common.ApiResponse;
 import cn.edu.gdufs.common.PageResult;
 import cn.edu.gdufs.config.interceptor.RequiredPermission;
 import cn.edu.gdufs.constant.RoleConstant;
+import cn.edu.gdufs.controller.dto.BlogInsertDTO;
 import cn.edu.gdufs.controller.dto.BlogUpdateDTO;
 import cn.edu.gdufs.controller.vo.AdminDetailVO;
 import cn.edu.gdufs.controller.vo.BlogForAdminVO;
@@ -84,7 +85,11 @@ public class BlogController extends BaseController {
      */
     @PostMapping
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
-    public BlogForAdminVO insertBlog(@RequestBody @Valid Blog blog) {
+    public BlogForAdminVO insertBlog(@RequestBody @Valid BlogInsertDTO blogInsertDTO) {
+        // 数据模型转换
+        Blog blog = new Blog();
+        BeanUtils.copyProperties(blogInsertDTO, blog);
+
         // 新增文章
         blogService.insertBlog(blog, getUserId());
 
