@@ -31,6 +31,10 @@ public class ActivityController extends BaseController {
 
     /**
      * 查询活动列表
+     *
+     * @param pageNumber 页码
+     * @param pageSize   页面大小
+     * @return 分页活动列表
      */
     @GetMapping
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
@@ -43,6 +47,9 @@ public class ActivityController extends BaseController {
 
     /**
      * 查询活动详情
+     *
+     * @param id 活动id
+     * @return 活动详情
      */
     @GetMapping("/{id}")
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
@@ -52,6 +59,9 @@ public class ActivityController extends BaseController {
 
     /**
      * 新增活动
+     *
+     * @param activityInsertDTO 新增活动DTO
+     * @return 新增活动信息
      */
     @PostMapping
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
@@ -67,6 +77,8 @@ public class ActivityController extends BaseController {
 
     /**
      * 修改活动
+     *
+     * @param activityUpdateDTO 修改活动DTO
      */
     @PutMapping
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
@@ -81,6 +93,8 @@ public class ActivityController extends BaseController {
 
     /**
      * 删除活动
+     *
+     * @param id 活动id
      */
     @DeleteMapping("/{id}")
     public void deleteActivity(@Min(value = 1, message = "id不能小于1") @PathVariable long id) {

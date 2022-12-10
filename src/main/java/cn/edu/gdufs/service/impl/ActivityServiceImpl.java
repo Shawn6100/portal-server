@@ -28,12 +28,14 @@ public class ActivityServiceImpl implements ActivityService {
     @Autowired
     private RedisUtil redisUtil;
 
+    // 查询活动列表
     @Override
     public List<Activity> getActivityList(int pageNumber, int pageSize) {
         PageHelper.startPage(pageNumber, pageSize);
         return activityMapper.getActivityList();
     }
 
+    // 根据id查询活动信息
     @Override
     public Activity getActivityById(long id) {
         // 先查询 Redis 中是否有记录
@@ -55,11 +57,13 @@ public class ActivityServiceImpl implements ActivityService {
         return activity;
     }
 
+    // 新增活动
     @Override
     public void insertActivity(Activity activity) {
         activityMapper.insertActivity(activity);
     }
 
+    // 修改活动
     @Override
     @Transactional  // 开启事务
     public void updateActivity(Activity activity) {
@@ -70,6 +74,7 @@ public class ActivityServiceImpl implements ActivityService {
         redisUtil.del(String.format(CacheConstant.ACTIVITY_INFO, activity.getId()));
     }
 
+    // 删除活动
     @Override
     @Transactional  // 开启事务
     public void deleteActivity(long id) {
