@@ -35,12 +35,14 @@ public class CarouselServiceImpl implements CarouselService {
     @Autowired
     private RedisUtil redisUtil;
 
+    // 分页查询轮播图列表
     @Override
     public List<Carousel> getCarouselList(int pageNumber, int pageSize) {
         PageHelper.startPage(pageNumber, pageSize);
         return carouselMapper.getCarouselList();
     }
 
+    // 将轮播图列表转换为轮播图VO列表
     @Override
     public List<CarouselForAdminVO> getCarouselVOList(List<Carousel> carousels) {
 
@@ -74,6 +76,7 @@ public class CarouselServiceImpl implements CarouselService {
         return voList;
     }
 
+    // 查询轮播图详情
     @Override
     public Carousel getCarouselDetail(long id) {
 
@@ -97,6 +100,7 @@ public class CarouselServiceImpl implements CarouselService {
         return carousel;
     }
 
+    // 新增轮播图
     @Override
     public void insertCarousel(Carousel carousel, long userId) {
         carousel.setCreateUserId(userId);
@@ -105,6 +109,7 @@ public class CarouselServiceImpl implements CarouselService {
         carouselMapper.insertCarousel(carousel);
     }
 
+    // 修改轮播图
     @Override
     @Transactional  // 开启事务，删除失败回滚
     public void updateCarousel(Carousel carousel, long userId) {
@@ -116,6 +121,7 @@ public class CarouselServiceImpl implements CarouselService {
         redisUtil.del(String.format(CacheConstant.CAROUSEL_INFO, carousel.getId()));
     }
 
+    // 删除轮播图
     @Override
     @Transactional  // 开启事务，删除失败回滚
     public void deleteCarousel(long id) {
