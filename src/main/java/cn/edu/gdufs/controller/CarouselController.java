@@ -7,7 +7,6 @@ import cn.edu.gdufs.controller.dto.CarouselInsertDTO;
 import cn.edu.gdufs.controller.dto.CarouselUpdateDTO;
 import cn.edu.gdufs.controller.vo.AdminDetailVO;
 import cn.edu.gdufs.controller.vo.CarouselForAdminVO;
-import cn.edu.gdufs.exception.ApiException;
 import cn.edu.gdufs.pojo.Admin;
 import cn.edu.gdufs.pojo.Carousel;
 import cn.edu.gdufs.service.AdminService;
@@ -59,9 +58,6 @@ public class CarouselController extends BaseController {
     public CarouselForAdminVO getCarouselDetail(@PathVariable long id) {
         // 查询轮播图详情
         Carousel carousel = carouselService.getCarouselDetail(id);
-        if (carousel == null) {
-            throw new ApiException("id参数错误，轮播图不存在");
-        }
 
         // 数据模型转换
         CarouselForAdminVO carouselForAdminVO = new CarouselForAdminVO();
