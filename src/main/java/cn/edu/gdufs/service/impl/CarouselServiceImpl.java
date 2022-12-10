@@ -16,6 +16,7 @@ import com.github.pagehelper.PageHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -105,13 +106,23 @@ public class CarouselServiceImpl implements CarouselService {
     }
 
     @Override
+    @Transactional  // 开启事务，删除失败回滚
     public void updateCarousel(Carousel carousel, long userId) {
+        // 修改轮播图信息
         carousel.setUpdateUserId(userId);
         carouselMapper.updateCarousel(carousel);
+
+        // 删除Redis中的缓存信息
+        redisUtil.del(String.format(CacheConstant.CAROUSEL_INFO, carousel.getId()));
     }
 
     @Override
+    @Transactional  // 开启事务，删除失败回滚
     public void deleteCarousel(long id) {
+        // 删除轮播图信息
         carouselMapper.deleteCarousel(id);
+
+        // 删除Redis中的缓存信息
+        redisUtil.del(String.format(CacheConstant.CAROUSEL_INFO, id));
     }
 }
