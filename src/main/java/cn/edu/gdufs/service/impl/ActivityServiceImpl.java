@@ -11,6 +11,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -60,12 +61,22 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
+    @Transactional  // 开启事务
     public void updateActivity(Activity activity) {
+        // 更新活动
         activityMapper.updateActivity(activity);
+
+        // 删除 Redis 中的记录
+        redisUtil.del(String.format(CacheConstant.ACTIVITY_INFO, activity.getId()));
     }
 
     @Override
+    @Transactional  // 开启事务
     public void deleteActivity(long id) {
+        // 删除活动
         activityMapper.deleteActivity(id);
+
+        // 删除 Redis 中的记录
+        redisUtil.del(String.format(CacheConstant.ACTIVITY_INFO, id));
     }
 }
