@@ -49,6 +49,15 @@ public class AdminController extends BaseController {
     }
 
     /**
+     * 管理员获取个人信息接口
+     */
+    @GetMapping("/info")
+    @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
+    public AdminDetailVO getAdminInfo() {
+        return adminService.getAdminDetail(getUserId());
+    }
+
+    /**
      * 管理员登出接口
      */
     @GetMapping("/logout")
