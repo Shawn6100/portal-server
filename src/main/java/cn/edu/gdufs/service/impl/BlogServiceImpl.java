@@ -1,12 +1,17 @@
 package cn.edu.gdufs.service.impl;
 
+import cn.edu.gdufs.constant.CacheConstant;
 import cn.edu.gdufs.controller.vo.AdminDetailVO;
 import cn.edu.gdufs.controller.vo.BlogForAdminVO;
+import cn.edu.gdufs.exception.ApiException;
 import cn.edu.gdufs.mapper.BlogMapper;
 import cn.edu.gdufs.pojo.Admin;
 import cn.edu.gdufs.pojo.Blog;
 import cn.edu.gdufs.service.AdminService;
 import cn.edu.gdufs.service.BlogService;
+import cn.edu.gdufs.util.RedisUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,18 +31,20 @@ public class BlogServiceImpl implements BlogService {
     private BlogMapper blogMapper;
     @Autowired
     private AdminService adminService;
+    @Autowired
+    private RedisUtil redisUtil;
 
+    // 查询所有文章列表
     @Override
     public List<Blog> getBlogList(int pageNumber, int pageSize) {
+        // 开启分页
         PageHelper.startPage(pageNumber, pageSize);
         return blogMapper.getBlogList();
     }
 
+    // 将文章列表转换为文章VO列表
     @Override
-    public List<BlogForAdminVO> getBlogVOList(int pageNumber, int pageSize) {
-        // 分页查询
-        List<Blog> blogList = getBlogList(pageNumber, pageSize);
-
+    public List<BlogForAdminVO> getBlogVOList(List<Blog> blogList) {
         // 根据管理员id数组获取管理员信息列表
         Set<Long> adminIds = new HashSet<>();
         for (Blog blog : blogList) {
@@ -71,7 +78,23 @@ public class BlogServiceImpl implements BlogService {
     // 根据id查询文章信息
     @Override
     public Blog getBlogById(long id) {
-        return blogMapper.getBlogById(id);
+        // 先从 Redis 中查询数据
+        String key = String.format(CacheConstant.BLOG_INFO, id);
+        String blogString = (String) redisUtil.get(key);
+        if (blogString != null){
+            return JSONObject.parseObject(blogString, Blog.class);
+        }
+
+        // 从 MySQL 中查询
+        Blog blog = blogMapper.getBlogById(id);
+        if (blog == null) {
+            throw new ApiException("文章id参数错误，文章不存在");
+        }
+
+        // 存入 Redis
+        redisUtil.set(key, JSON.toJSONString(blog), CacheConstant.EXPIRE_TIME);
+
+        return blog;
     }
 
     // 新增文章
@@ -85,17 +108,24 @@ public class BlogServiceImpl implements BlogService {
         blogMapper.insertBlog(blog);
     }
 
+    // 修改文章
     @Override
     public void updateBlog(Blog blog, long userId) {
         // 设置修改用户id
         blog.setUpdateUserId(userId);
         // 修改文章
         blogMapper.updateBlog(blog);
+
+        // 删除 Redis 中的缓存信息
+        redisUtil.del(String.format(CacheConstant.BLOG_INFO, blog.getId()));
     }
 
+    // 删除文章
     @Override
     public void deleteBlog(long id) {
         // 删除文章
         blogMapper.deleteBlog(id);
+        // 删除 Redis 中的缓存信息
+        redisUtil.del(String.format(CacheConstant.BLOG_INFO, id));
     }
 }
