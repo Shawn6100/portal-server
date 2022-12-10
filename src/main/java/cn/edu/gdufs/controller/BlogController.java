@@ -41,9 +41,15 @@ public class BlogController extends BaseController {
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
     public PageResult<BlogForAdminVO> getBlogList(@RequestParam(defaultValue = "1") Integer pageNumber,
                                                   @RequestParam(defaultValue = "5") Integer pageSize) {
+        // 分页查询文章列表
+        List<Blog> blogList = blogService.getBlogList(pageNumber, pageSize);
+
+        // 封装分页结果
         PageResult<BlogForAdminVO> result = new PageResult<>();
-        // 分页查询文章列表，并风找到PageResult中
-        BeanUtils.copyProperties(PageInfo.of(blogService.getBlogVOList(pageNumber, pageSize)), result);
+        BeanUtils.copyProperties(PageInfo.of(blogList), result);
+
+        // 转换为VO列表，封装到分页结果中
+        result.setList(blogService.getBlogVOList(blogList));
 
         return result;
     }

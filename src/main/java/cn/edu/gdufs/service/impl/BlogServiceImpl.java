@@ -29,15 +29,13 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public List<Blog> getBlogList(int pageNumber, int pageSize) {
+        // 开启分页
         PageHelper.startPage(pageNumber, pageSize);
         return blogMapper.getBlogList();
     }
 
     @Override
-    public List<BlogForAdminVO> getBlogVOList(int pageNumber, int pageSize) {
-        // 分页查询
-        List<Blog> blogList = getBlogList(pageNumber, pageSize);
-
+    public List<BlogForAdminVO> getBlogVOList(List<Blog> blogList) {
         // 根据管理员id数组获取管理员信息列表
         Set<Long> adminIds = new HashSet<>();
         for (Blog blog : blogList) {
