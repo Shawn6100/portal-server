@@ -106,12 +106,16 @@ public class BlogServiceImpl implements BlogService {
         blogMapper.insertBlog(blog);
     }
 
+    // 修改文章
     @Override
     public void updateBlog(Blog blog, long userId) {
         // 设置修改用户id
         blog.setUpdateUserId(userId);
         // 修改文章
         blogMapper.updateBlog(blog);
+
+        // 删除 Redis 中的缓存信息
+        redisUtil.del(String.format(CacheConstant.BLOG_INFO, blog.getId()));
     }
 
     @Override
