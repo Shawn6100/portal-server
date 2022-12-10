@@ -9,9 +9,11 @@ import cn.edu.gdufs.service.ActivityService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 
 /**
  * Description:
@@ -20,6 +22,7 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping("/activity")
+@Validated
 public class ActivityController extends BaseController {
 
     @Autowired
@@ -42,7 +45,7 @@ public class ActivityController extends BaseController {
      */
     @GetMapping("/{id}")
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
-    public Activity getActivityDetail(@PathVariable long id) {
+    public Activity getActivityDetail(@Min(value = 1, message = "id不能小于1") @PathVariable long id) {
         return activityService.getActivityById(id);
     }
 
