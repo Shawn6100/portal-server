@@ -15,9 +15,11 @@ import cn.edu.gdufs.service.BlogService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.*;
 
 /**
@@ -27,6 +29,7 @@ import java.util.*;
  */
 @RestController
 @RequestMapping("/blog")
+@Validated
 public class BlogController extends BaseController {
 
     @Autowired
@@ -59,7 +62,7 @@ public class BlogController extends BaseController {
      */
     @GetMapping("/{id}")
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
-    public BlogForAdminVO getBlogDetail(@PathVariable long id) {
+    public BlogForAdminVO getBlogDetail(@Min(value = 1, message = "文章id不能小于1") @PathVariable long id) {
         Blog blog = blogService.getBlogById(id);
         if (blog == null) {
             throw new ApiException("文章id参数错误，文章不存在");
@@ -127,7 +130,7 @@ public class BlogController extends BaseController {
      */
     @DeleteMapping("/{id}")
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
-    public void deleteBlog(@PathVariable long id) {
+    public void deleteBlog(@Min(value = 1, message = "文章id不能小于1") @PathVariable long id) {
         blogService.deleteBlog(id);
     }
 }
