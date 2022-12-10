@@ -83,7 +83,7 @@ public class ActivityController extends BaseController {
      * 删除活动
      */
     @DeleteMapping("/{id}")
-    public void deleteActivity(@PathVariable long id) {
+    public void deleteActivity(@Min(value = 1, message = "id不能小于1") @PathVariable long id) {
         activityService.deleteActivity(id);
     }
 
