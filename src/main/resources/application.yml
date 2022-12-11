@@ -22,6 +22,9 @@ spring:
     protocol: smtps
     username: yourEmailAddress@163.com
     password: yourSecretCode
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
 mybatis:
   type-aliases-package: cn.edu.gdufs.pojo

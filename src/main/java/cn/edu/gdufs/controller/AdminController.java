@@ -40,12 +40,13 @@ public class AdminController extends BaseController {
 
     /**
      * 管理员登录接口
+     *
      * @param username 用户名
      * @param password 密码
      * @return token
      */
     @PostMapping("/login")
-    public String adminLogin(@NotBlank(message = "用户名不能为空") String  username,
+    public String adminLogin(@NotBlank(message = "用户名不能为空") String username,
                              @NotBlank(message = "密码不能为空") String password) {
         // 校验用户名和密码
         Admin admin = adminService.login(username, password);
@@ -75,12 +76,13 @@ public class AdminController extends BaseController {
 
     /**
      * 查询管理员列表
+     *
      * @return 管理员信息列表
      */
     @GetMapping()
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
     public PageResult<Admin> getAdminList(@RequestParam(defaultValue = "1") Integer pageNumber,
-                                        @RequestParam(defaultValue = "5") Integer pageSize) {
+                                          @RequestParam(defaultValue = "5") Integer pageSize) {
         // 封装分页结果
         PageResult<Admin> result = new PageResult<>();
         BeanUtils.copyProperties(PageInfo.of(adminService.getAdminList(pageNumber, pageSize)), result);
@@ -90,6 +92,7 @@ public class AdminController extends BaseController {
 
     /**
      * 查询管理员信息详情
+     *
      * @param id 管理员id
      * @return 管理员信息
      */
@@ -101,6 +104,7 @@ public class AdminController extends BaseController {
 
     /**
      * 超级管理员添加管理员
+     *
      * @param adminInsertDTO AdminInsertDTO
      * @return AdminDetailVO
      */
@@ -122,6 +126,7 @@ public class AdminController extends BaseController {
 
     /**
      * 管理员修改个人信息
+     *
      * @param adminUpdateDTO AdminUpdateDTO
      * @return ApiResponse<Object>
      */
@@ -144,6 +149,7 @@ public class AdminController extends BaseController {
 
     /**
      * 超级管理员删除管理员
+     *
      * @param id 管理员id
      * @return ApiResponse<Object>
      */
@@ -160,6 +166,7 @@ public class AdminController extends BaseController {
 
     /**
      * 管理员修改密码
+     *
      * @param oldPassword 原密码
      * @param newPassword 新密码
      */

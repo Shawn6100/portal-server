@@ -31,6 +31,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/admin/login")    // 管理员登录
                 .excludePathPatterns("/common/**")      // 通用Controller
                 .excludePathPatterns("/upload/**")      // 服务器上的文件资源
+                .excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**") // swagger
                 .addPathPatterns("/**");
     }
 
