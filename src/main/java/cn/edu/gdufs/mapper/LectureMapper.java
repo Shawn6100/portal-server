@@ -16,4 +16,7 @@ public interface LectureMapper {
 
     // 修改分享会信息
     void updateLecture(Lecture lecture);
+
+    // 删除分享会信息
+    void deleteLecture(long id);
 }

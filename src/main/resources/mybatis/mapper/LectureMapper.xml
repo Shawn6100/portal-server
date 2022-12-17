@@ -23,4 +23,10 @@
         WHERE id = #{id}
     </update>
 
+    <update id="deleteLecture">
+        UPDATE lecture
+        SET is_deleted = 1
+        WHERE id = #{id}
+    </update>
+
 </mapper>

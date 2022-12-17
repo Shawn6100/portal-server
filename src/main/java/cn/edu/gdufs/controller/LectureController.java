@@ -8,9 +8,11 @@ import cn.edu.gdufs.pojo.Lecture;
 import cn.edu.gdufs.service.LectureService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 
 /**
  * Description:
@@ -19,6 +21,7 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping("/lecture")
+@Validated
 public class LectureController {
 
     @Autowired
@@ -52,5 +55,15 @@ public class LectureController {
 
         // 修改分享会信息
         lectureService.updateLecture(lecture);
+    }
+
+    /**
+     * 删除分享会信息
+     */
+    @DeleteMapping("/{id}")
+    @RequiredPermission(RoleConstant.ROLE_SUPER_ADMIN)
+    public void deleteLecture(@Min(value = 1, message = "分享会id不能小于1") @PathVariable long id) {
+        // 删除分享会信息
+        lectureService.deleteLecture(id);
     }
 }

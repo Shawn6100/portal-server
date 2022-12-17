@@ -27,4 +27,9 @@ public class LectureServiceImpl implements LectureService {
     public void updateLecture(Lecture lecture) {
         lectureMapper.updateLecture(lecture);
     }
+
+    @Override
+    public void deleteLecture(long id) {
+        lectureMapper.deleteLecture(id);
+    }
 }
