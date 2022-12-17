@@ -61,6 +61,16 @@ public class MailUtil {
     }
 
     /**
+     * 用户注册发送验证码
+     */
+    public void sendUserRegisterVerificationCode(String recipient, String verificationCode) {
+        String title = "【广外Qt官网展示系统】注册验证码";
+        String template = "您正在注册【广外Qt官网展示系统】，您的验证码为 %s ，5分钟内有效。";
+        String mailBody = String.format(template, verificationCode);
+        sendMail(new String[]{recipient}, title, mailBody);
+    }
+
+    /**
      * 生成邮箱验证码，码长6位，大写字母与数字混合
      *
      * @return 6位验证码

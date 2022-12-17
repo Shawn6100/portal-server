@@ -36,8 +36,9 @@ public class CommonController extends BaseController {
 
     /**
      * 文件上传
-     * @param request   请求对象
-     * @param file  文件
+     *
+     * @param request 请求对象
+     * @param file    文件
      * @return 文件访问路径
      */
     @PostMapping("/upload")
@@ -48,6 +49,7 @@ public class CommonController extends BaseController {
 
     /**
      * 管理员忘记密码发送验证码
+     *
      * @param email 邮箱
      */
     @PostMapping("/admin/forget")
@@ -59,10 +61,18 @@ public class CommonController extends BaseController {
      * 管理员忘记密码修改为新密码
      */
     @PutMapping("/admin/forget")
-    public void adminForgetPassword(@Email(message = "邮箱格式错误")String email,
-                               @Pattern(regexp = "^[0-9A-Z]{6}$", message = "验证码格式错误") String code,
-                               @Length(min = 6, message = "密码长度不能小于6位") String newPassword) {
+    public void adminForgetPassword(@Email(message = "邮箱格式错误") String email,
+                                    @Pattern(regexp = "^[0-9A-Z]{6}$", message = "验证码格式错误") String code,
+                                    @Length(min = 6, message = "密码长度不能小于6位") String newPassword) {
         commonService.adminForgetPassword(email, code, newPassword);
+    }
+
+    /**
+     * 用户注册发送邮箱验证码
+     */
+    @PostMapping("/user/register/code")
+    public void sendRegisterCode(@Email(message = "邮箱格式错误") String email) {
+        commonService.userRegisterSendVerificationCode(email);
     }
 
 }

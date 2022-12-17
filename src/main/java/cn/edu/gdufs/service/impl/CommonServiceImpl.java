@@ -5,6 +5,7 @@ import cn.edu.gdufs.exception.ApiException;
 import cn.edu.gdufs.pojo.Admin;
 import cn.edu.gdufs.service.AdminService;
 import cn.edu.gdufs.service.CommonService;
+import cn.edu.gdufs.service.UserService;
 import cn.edu.gdufs.util.MD5Util;
 import cn.edu.gdufs.util.MailUtil;
 import cn.edu.gdufs.util.RedisUtil;
@@ -22,6 +23,8 @@ public class CommonServiceImpl implements CommonService {
 
     @Autowired
     private AdminService adminService;
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private MailUtil mailUtil;
@@ -50,7 +53,7 @@ public class CommonServiceImpl implements CommonService {
         redisUtil.set(key, verificationCode, 5 * 60 + 10);  // 过期时间五分钟
 
         // 邮件发送锁
-        redisUtil.set(String.format(lock, email), 1, 30);
+        redisUtil.set(lock, 1, 30);
 
         // 发送邮件
         mailUtil.sendForgetPasswordVerificationMail(email, verificationCode);
@@ -76,5 +79,32 @@ public class CommonServiceImpl implements CommonService {
         String tokenKey = String.format(CacheConstant.TOKEN_KEY, admin.getId());
         String token = (String) redisUtil.get(tokenKey);
         redisUtil.del(key, tokenKey, token);
+    }
+
+    @Override
+    public void userRegisterSendVerificationCode(String email) {
+        // 检查邮箱是否可用
+        if (userService.getUserByEmail(email) != null) {
+            throw new ApiException("邮箱已存在");
+        }
+
+        // 检测是否频繁操作
+        String lock = String.format(CacheConstant.EMAIL_LOCK, email);
+        if (redisUtil.hasKey(lock)) {
+            throw new ApiException("操作频繁，请稍后重试");
+        }
+
+        // 获取邮箱验证码
+        String verificationCode = mailUtil.getVerificationCode();
+
+        // 将验证码存入Redis
+        String key = String.format(CacheConstant.USER_REGISTER_CODE, email);
+        redisUtil.set(key, verificationCode, 5 * 60 + 10);  // 过期时间五分钟
+
+        // 邮件发送锁
+        redisUtil.set(lock, 1, 30);
+
+        // 发送邮件
+        mailUtil.sendUserRegisterVerificationCode(email, verificationCode);
     }
 }
