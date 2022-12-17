@@ -9,6 +9,9 @@ import cn.edu.gdufs.pojo.User;
  */
 public interface UserService {
 
+    // 用户注册
+    void register(User user, String verificationCode);
+
     // 根据用户邮箱查询用户信息
     User getUserByEmail(String email);
 }

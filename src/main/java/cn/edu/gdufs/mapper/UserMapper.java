@@ -11,6 +11,9 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface UserMapper {
 
+    // 新增用户
+    void insertUser(User user);
+
     // 根据用户邮箱查询用户信息
     User getUserByEmail(String email);
 }

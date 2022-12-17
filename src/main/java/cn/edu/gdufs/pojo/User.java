@@ -22,9 +22,9 @@ public class User implements Serializable {
     private Long id;
 
     /**
-     * 用户名
+     * 用户邮箱
      */
-    private String username;
+    private String email;
 
     /**
      * 用户密码
@@ -51,8 +51,4 @@ public class User implements Serializable {
      */
     private String nickname;
 
-    /**
-     * 用户邮箱
-     */
-    private String email;
 }
