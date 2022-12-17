@@ -5,6 +5,11 @@
 
 <mapper namespace="cn.edu.gdufs.mapper.LectureMapper">
 
+    <select id="getLectureList" resultType="Lecture">
+        SELECT *
+        FROM lecture
+    </select>
+
     <select id="getLectureById" resultType="Lecture">
         SELECT *
         FROM lecture

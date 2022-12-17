@@ -2,12 +2,17 @@ package cn.edu.gdufs.service;
 
 import cn.edu.gdufs.pojo.Lecture;
 
+import java.util.List;
+
 /**
  * Description:
  * Author: 欧丹萍
  * Date: 2022/12/17
  */
 public interface LectureService {
+
+    // 分页查询分享会列表
+    List<Lecture> getLectureList(int pageNumber, int pageSize);
 
     // 查询分享会详情
     Lecture getLectureById(long id);

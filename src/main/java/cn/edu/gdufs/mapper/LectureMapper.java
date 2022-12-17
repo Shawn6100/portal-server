@@ -3,6 +3,8 @@ package cn.edu.gdufs.mapper;
 import cn.edu.gdufs.pojo.Lecture;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * Description:
  * Author: 欧丹萍
@@ -10,6 +12,9 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface LectureMapper {
+
+    // 查询分享会列表
+    List<Lecture> getLectureList();
 
     // 查询分享会详情
     Lecture getLectureById(long id);

@@ -3,8 +3,11 @@ package cn.edu.gdufs.service.impl;
 import cn.edu.gdufs.mapper.LectureMapper;
 import cn.edu.gdufs.pojo.Lecture;
 import cn.edu.gdufs.service.LectureService;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Description:
@@ -16,6 +19,12 @@ public class LectureServiceImpl implements LectureService {
 
     @Autowired
     private LectureMapper lectureMapper;
+
+    @Override
+    public List<Lecture> getLectureList(int pageNumber, int pageSize) {
+        PageHelper.startPage(pageNumber, pageSize);
+        return lectureMapper.getLectureList();
+    }
 
     @Override
     public Lecture getLectureById(long id) {
