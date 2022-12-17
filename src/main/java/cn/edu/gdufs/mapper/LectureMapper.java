@@ -13,4 +13,7 @@ public interface LectureMapper {
 
     // 新增轮播图信息
     void insertLecture(Lecture lecture);
+
+    // 修改分享会信息
+    void updateLecture(Lecture lecture);
 }

@@ -11,4 +11,7 @@ public interface LectureService {
 
     // 新增分享会信息
     void insertLecture(Lecture lecture);
+
+    // 修改分享会信息
+    void updateLecture(Lecture lecture);
 }

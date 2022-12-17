@@ -22,4 +22,9 @@ public class LectureServiceImpl implements LectureService {
     public void insertLecture(Lecture lecture) {
         lectureMapper.insertLecture(lecture);
     }
+
+    @Override
+    public void updateLecture(Lecture lecture) {
+        lectureMapper.updateLecture(lecture);
+    }
 }

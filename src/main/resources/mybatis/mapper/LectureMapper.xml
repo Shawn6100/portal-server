@@ -10,4 +10,17 @@
         VALUES (#{title}, #{content}, #{path}, #{date}, #{position}, #{beginTime}, #{endTime}, #{capacity})
     </insert>
 
+    <update id="updateLecture">
+        UPDATE lecture
+        SET title = #{title},
+            content = #{content},
+            path = #{path},
+            date = #{date},
+            position = #{position},
+            begin_time = #{beginTime},
+            end_time = #{endTime},
+            capacity = #{capacity}
+        WHERE id = #{id}
+    </update>
+
 </mapper>
