@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.edu.gdufs.mapper.LectureMapper">
+
+    <select id="getLectureList" resultType="Lecture">
+        SELECT *
+        FROM lecture
+    </select>
+
+    <select id="getLectureById" resultType="Lecture">
+        SELECT *
+        FROM lecture
+        WHERE id = #{id}
+    </select>
+
+    <insert id="insertLecture" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO lecture(title, content, path, date, position, begin_time, end_time, capacity)
+        VALUES (#{title}, #{content}, #{path}, #{date}, #{position}, #{beginTime}, #{endTime}, #{capacity})
+    </insert>
+
+    <update id="updateLecture">
+        UPDATE lecture
+        SET title = #{title},
+            content = #{content},
+            path = #{path},
+            date = #{date},
+            position = #{position},
+            begin_time = #{beginTime},
+            end_time = #{endTime},
+            capacity = #{capacity}
+        WHERE id = #{id}
+    </update>
+
+    <update id="deleteLecture">
+        UPDATE lecture
+        SET is_deleted = 1
+        WHERE id = #{id}
+    </update>
+
+</mapper>
