@@ -9,6 +9,9 @@ import cn.edu.gdufs.pojo.Lecture;
  */
 public interface LectureService {
 
+    // 查询分享会详情
+    Lecture getLectureById(long id);
+
     // 新增分享会信息
     void insertLecture(Lecture lecture);
 

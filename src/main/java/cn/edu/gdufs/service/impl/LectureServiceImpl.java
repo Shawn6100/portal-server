@@ -17,6 +17,11 @@ public class LectureServiceImpl implements LectureService {
     @Autowired
     private LectureMapper lectureMapper;
 
+    @Override
+    public Lecture getLectureById(long id) {
+        return lectureMapper.getLectureById(id);
+    }
+
     // 新增轮播图信息
     @Override
     public void insertLecture(Lecture lecture) {

@@ -5,6 +5,12 @@
 
 <mapper namespace="cn.edu.gdufs.mapper.LectureMapper">
 
+    <select id="getLectureById" resultType="Lecture">
+        SELECT *
+        FROM lecture
+        WHERE id = #{id}
+    </select>
+
     <insert id="insertLecture" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO lecture(title, content, path, date, position, begin_time, end_time, capacity)
         VALUES (#{title}, #{content}, #{path}, #{date}, #{position}, #{beginTime}, #{endTime}, #{capacity})

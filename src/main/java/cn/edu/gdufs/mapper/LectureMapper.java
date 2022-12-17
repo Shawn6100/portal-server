@@ -11,6 +11,9 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface LectureMapper {
 
+    // 查询分享会详情
+    Lecture getLectureById(long id);
+
     // 新增轮播图信息
     void insertLecture(Lecture lecture);
 

@@ -28,6 +28,16 @@ public class LectureController {
     private LectureService lectureService;
 
     /**
+     * 查询分享会详情
+     */
+    @GetMapping("/{id}")
+    @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
+    public Lecture getLectureDetail(@Min(value = 1, message = "分享会id不能小于1") @PathVariable long id) {
+        // 查询分享会详情
+        return lectureService.getLectureById(id);
+    }
+
+    /**
      * 新增分享会信息
      */
     @PostMapping
