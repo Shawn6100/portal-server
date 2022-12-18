@@ -24,4 +24,10 @@ public interface UserService {
     // 根据id获取用户信息
     User getUserById(long id);
 
+    // 更新用户信息
+    void updateUser(User user);
+
+    // 修改密码
+    void updatePassword(long id, String password);
+
 }

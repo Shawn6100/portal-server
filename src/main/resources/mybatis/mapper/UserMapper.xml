@@ -22,4 +22,17 @@
         WHERE id = #{id}
     </select>
 
+    <update id="updateUser">
+        UPDATE user
+        SET nickname = #{nickname},
+            avatar   = #{avatar}
+        WHERE id = #{id}
+    </update>
+
+    <update id="updatePassword">
+        UPDATE user
+        SET password = #{password}
+        WHERE id = #{id}
+    </update>
+
 </mapper>
