@@ -8,6 +8,8 @@ package cn.edu.gdufs.constant;
 public class RoleConstant {
     private RoleConstant() {}
 
+    public static final int ROLE_USER = 0;  // 普通用户权限
+
     public static final int ROLE_SUPER_ADMIN = 1;   // 超级管理员权限
     public static final int ROLE_NORMAL_ADMIN = 2;  // 普通管理员权限
 }

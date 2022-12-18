@@ -12,4 +12,7 @@ public interface CommonService {
 
     // 管理员忘记密码修改为新密码
     void adminForgetPassword(String email, String code, String newPassword);
+
+    // 用户注册发送邮箱验证码
+    void userRegisterSendVerificationCode(String email);
 }
