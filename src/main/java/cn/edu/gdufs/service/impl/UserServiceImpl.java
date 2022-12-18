@@ -47,4 +47,18 @@ public class UserServiceImpl implements UserService {
     public User getUserByEmail(String email) {
         return userMapper.getUserByEmail(email);
     }
+
+    @Override
+    public User login(String email, String password) {
+        User user = userMapper.getUserByEmail(email);
+        if (!checkPassword(user, password)) {
+            throw new ApiException("用户名或密码错误");
+        }
+        return user;
+    }
+
+    @Override
+    public boolean checkPassword(User user, String password) {
+        return user != null && user.getPassword().equals(MD5Util.encode(password, user.getSalt()));
+    }
 }

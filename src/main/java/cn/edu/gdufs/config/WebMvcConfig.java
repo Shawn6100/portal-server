@@ -30,6 +30,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(authInterceptor())
                 .excludePathPatterns("/admin/login")    // 管理员登录
                 .excludePathPatterns("/user/register")  // 用户注册
+                .excludePathPatterns("/user/login")     // 用户登录
                 .excludePathPatterns("/common/**")      // 通用Controller
                 .excludePathPatterns("/upload/**")      // 服务器上的文件资源
                 .excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**") // swagger
