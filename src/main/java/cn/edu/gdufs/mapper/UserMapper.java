@@ -22,4 +22,7 @@ public interface UserMapper {
 
     // 更新用户信息
     void updateUser(User user);
+
+    // 修改用户密码
+    void updatePassword(long id, String password);
 }

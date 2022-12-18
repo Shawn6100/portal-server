@@ -27,4 +27,7 @@ public interface UserService {
     // 更新用户信息
     void updateUser(User user);
 
+    // 修改密码
+    void updatePassword(long id, String password);
+
 }
