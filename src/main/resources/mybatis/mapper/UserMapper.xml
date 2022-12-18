@@ -16,4 +16,10 @@
         WHERE email = #{email}
     </select>
 
+    <select id="getUserById" resultType="User">
+        SELECT *
+        FROM user
+        WHERE id = #{id}
+    </select>
+
 </mapper>

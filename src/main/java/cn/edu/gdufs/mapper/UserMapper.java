@@ -16,4 +16,7 @@ public interface UserMapper {
 
     // 根据用户邮箱查询用户信息
     User getUserByEmail(String email);
+
+    // 根据id获取用户信息
+    User getUserById(long id);
 }

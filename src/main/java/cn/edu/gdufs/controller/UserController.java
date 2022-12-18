@@ -3,6 +3,7 @@ package cn.edu.gdufs.controller;
 import cn.edu.gdufs.config.interceptor.RequiredPermission;
 import cn.edu.gdufs.constant.RoleConstant;
 import cn.edu.gdufs.controller.dto.UserInsertDTO;
+import cn.edu.gdufs.controller.vo.UserInfoVO;
 import cn.edu.gdufs.pojo.User;
 import cn.edu.gdufs.service.UserService;
 import cn.edu.gdufs.util.TokenUtil;
@@ -12,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 /**
@@ -47,7 +49,7 @@ public class UserController extends BaseController {
      * 用户登录
      */
     @PostMapping("/login")
-    public String login(@NotBlank(message = "邮箱不能为空") String email,
+    public String login(@NotBlank(message = "邮箱不能为空") @Email(message = "邮箱格式错误") String email,
                         @NotBlank(message = "密码不能为空") String password) {
         User user = userService.login(email, password);
         // 发放token
@@ -61,5 +63,19 @@ public class UserController extends BaseController {
     @RequiredPermission(RoleConstant.ROLE_USER)
     public void logout() {
         tokenUtil.deleteToken(getUserId());
+    }
+
+    /**
+     * 获取个人信息
+     */
+    @GetMapping("/info")
+    @RequiredPermission(RoleConstant.ROLE_USER)
+    public UserInfoVO getUserInfo() {
+        User user = userService.getUserById(getUserId());
+
+        UserInfoVO userInfoVO = new UserInfoVO();
+        BeanUtils.copyProperties(user, userInfoVO);
+
+        return userInfoVO;
     }
 }

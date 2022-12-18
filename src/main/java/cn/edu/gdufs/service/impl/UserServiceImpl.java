@@ -44,11 +44,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserByEmail(String email) {
-        return userMapper.getUserByEmail(email);
-    }
-
-    @Override
     public User login(String email, String password) {
         User user = userMapper.getUserByEmail(email);
         if (!checkPassword(user, password)) {
@@ -60,5 +55,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean checkPassword(User user, String password) {
         return user != null && user.getPassword().equals(MD5Util.encode(password, user.getSalt()));
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        return userMapper.getUserByEmail(email);
+    }
+
+    @Override
+    public User getUserById(long id) {
+        return userMapper.getUserById(id);
     }
 }
