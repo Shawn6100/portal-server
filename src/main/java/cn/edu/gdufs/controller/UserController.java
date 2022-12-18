@@ -1,5 +1,7 @@
 package cn.edu.gdufs.controller;
 
+import cn.edu.gdufs.config.interceptor.RequiredPermission;
+import cn.edu.gdufs.constant.RoleConstant;
 import cn.edu.gdufs.controller.dto.UserInsertDTO;
 import cn.edu.gdufs.pojo.User;
 import cn.edu.gdufs.service.UserService;
@@ -20,7 +22,7 @@ import javax.validation.constraints.NotBlank;
 @RestController
 @RequestMapping("/user")
 @Validated
-public class UserController {
+public class UserController extends BaseController {
 
     @Autowired
     private UserService userService;
@@ -50,5 +52,14 @@ public class UserController {
         User user = userService.login(email, password);
         // 发放token
         return tokenUtil.grantToken(user.getId(), user.getRole());
+    }
+
+    /**
+     * 用户登出
+     */
+    @GetMapping("/logout")
+    @RequiredPermission(RoleConstant.ROLE_USER)
+    public void logout() {
+        tokenUtil.deleteToken(getUserId());
     }
 }
