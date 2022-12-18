@@ -3,6 +3,7 @@ package cn.edu.gdufs.controller;
 import cn.edu.gdufs.config.interceptor.RequiredPermission;
 import cn.edu.gdufs.constant.RoleConstant;
 import cn.edu.gdufs.controller.dto.UserInsertDTO;
+import cn.edu.gdufs.controller.dto.UserUpdateDTO;
 import cn.edu.gdufs.controller.vo.UserInfoVO;
 import cn.edu.gdufs.pojo.User;
 import cn.edu.gdufs.service.UserService;
@@ -77,5 +78,19 @@ public class UserController extends BaseController {
         BeanUtils.copyProperties(user, userInfoVO);
 
         return userInfoVO;
+    }
+
+    /**
+     * 修改个人信息
+     */
+    @PutMapping("/info")
+    @RequiredPermission(RoleConstant.ROLE_USER)
+    public void updateUserInfo(@RequestBody @Valid UserUpdateDTO userUpdateDTO) {
+        // 数据模型转换
+        User user = new User();
+        BeanUtils.copyProperties(userUpdateDTO, user);
+
+        // 更新用户信息
+        userService.updateUser(user);
     }
 }
