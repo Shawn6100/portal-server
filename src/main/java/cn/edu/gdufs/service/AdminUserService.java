@@ -13,4 +13,7 @@ public interface AdminUserService {
 
     // 分页查询用户列表
     List<UserForAdminVO> getUserList(int pageNumber, int pageSize);
+
+    // 获取用户详情
+    UserForAdminVO getUserDetail(long id);
 }

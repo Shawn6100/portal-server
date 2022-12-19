@@ -29,6 +29,9 @@ public interface UserMapper {
     // 修改用户密码
     void updatePassword(long id, String password);
 
-    // 获取用户VO列表
+    // 管理员获取用户VO列表
     List<UserForAdminVO> getUserForAdminVOList();
+
+    // 管理员获取用户详情
+    UserForAdminVO getUserDetail(long id);
 }

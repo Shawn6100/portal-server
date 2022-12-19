@@ -25,4 +25,9 @@ public class AdminUserServiceImpl implements AdminUserService {
         PageHelper.startPage(pageNumber, pageSize);
         return userMapper.getUserForAdminVOList();
     }
+
+    @Override
+    public UserForAdminVO getUserDetail(long id) {
+        return userMapper.getUserDetail(id);
+    }
 }

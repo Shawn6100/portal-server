@@ -40,4 +40,10 @@
         FROM user
     </select>
 
+    <select id="getUserDetail" resultType="cn.edu.gdufs.controller.vo.UserForAdminVO">
+        SELECT *, gmt_create createTime
+        FROM user
+        WHERE id = #{id}
+    </select>
+
 </mapper>

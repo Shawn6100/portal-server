@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Min;
 import java.util.List;
 
 /**
@@ -31,5 +32,13 @@ public class AdminUserController {
     public List<UserForAdminVO> getUserList(@RequestParam(defaultValue = "1") Integer pageNumber,
                                             @RequestParam(defaultValue = "5") Integer pageSize) {
         return adminUserService.getUserList(pageNumber, pageSize);
+    }
+
+    /**
+     * 查看用户详情
+     */
+    @GetMapping("/{id}")
+    public UserForAdminVO getUserDetail(@PathVariable @Min(value = 1000, message = "用户id不能小于1000") long id) {
+        return adminUserService.getUserDetail(id);
     }
 }
