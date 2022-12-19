@@ -11,6 +11,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,12 +29,14 @@ public class LectureServiceImpl implements LectureService {
     @Autowired
     private RedisUtil redisUtil;
 
+    // 分页查询分享会列表
     @Override
     public List<Lecture> getLectureList(int pageNumber, int pageSize) {
         PageHelper.startPage(pageNumber, pageSize);
         return lectureMapper.getLectureList();
     }
 
+    // 查询分享会详情
     @Override
     public Lecture getLectureById(long id) {
         // 查询Redis中是否存在记录
@@ -63,19 +66,31 @@ public class LectureServiceImpl implements LectureService {
         return lectureMapper.getLectureById(id);
     }
 
-    // 新增轮播图信息
+    // 新增分享会信息
     @Override
     public void insertLecture(Lecture lecture) {
         lectureMapper.insertLecture(lecture);
     }
 
+    // 修改分享会信息
     @Override
+    @Transactional
     public void updateLecture(Lecture lecture) {
+        // 修改MySQL中的数据
         lectureMapper.updateLecture(lecture);
+
+        // 删除Redis中的数据
+        redisUtil.del(String.format(CacheConstant.LECTURE_INFO, lecture.getId()));
     }
 
+    // 删除分享会信息
     @Override
+    @Transactional
     public void deleteLecture(long id) {
+        // 删除MySQL中的数据
         lectureMapper.deleteLecture(id);
+
+        // 删除Redis中的数据
+        redisUtil.del(String.format(CacheConstant.LECTURE_INFO, id));
     }
 }
