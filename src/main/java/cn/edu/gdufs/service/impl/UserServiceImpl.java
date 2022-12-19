@@ -9,6 +9,7 @@ import cn.edu.gdufs.util.MD5Util;
 import cn.edu.gdufs.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Description:
@@ -68,8 +69,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void updateUser(User user) {
+        // 更新用户信息
         userMapper.updateUser(user);
+
+        // 删除缓存中的用户信息
+        redisUtil.del(String.format(CacheConstant.ADMIN_USER_INFO, user.getId()));
     }
 
     @Override
