@@ -1,7 +1,10 @@
 package cn.edu.gdufs.mapper;
 
+import cn.edu.gdufs.controller.vo.UserForAdminVO;
 import cn.edu.gdufs.pojo.User;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * Description:
@@ -25,4 +28,10 @@ public interface UserMapper {
 
     // 修改用户密码
     void updatePassword(long id, String password);
+
+    // 管理员获取用户VO列表
+    List<UserForAdminVO> getUserForAdminVOList();
+
+    // 管理员获取用户详情
+    UserForAdminVO getUserDetail(long id);
 }
