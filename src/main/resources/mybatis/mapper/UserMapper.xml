@@ -35,4 +35,9 @@
         WHERE id = #{id}
     </update>
 
+    <select id="getUserForAdminVOList" resultType="cn.edu.gdufs.controller.vo.UserForAdminVO">
+        SELECT *, gmt_create createTime
+        FROM user
+    </select>
+
 </mapper>
