@@ -25,4 +25,7 @@ public interface LectureService {
 
     // 删除分享会信息
     void deleteLecture(long id);
+
+    // 用户报名分享会
+    void signUpLecture(long userId, long lectureId);
 }

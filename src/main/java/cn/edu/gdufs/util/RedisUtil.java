@@ -2,9 +2,11 @@ package cn.edu.gdufs.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -17,11 +19,15 @@ public class RedisUtil {
 
     @Autowired
     private RedisTemplate<String,Object> redisTemplate;
+    @Autowired
+    private DefaultRedisScript<Integer> redisScript;
 
     // 判断key是否存在
     public boolean hasKey(String key) {
         return Boolean.TRUE.equals(redisTemplate.hasKey(key));
     }
+
+    /* 字符串操作 */
 
     // 获取缓存值
     public Object get(String key) {
@@ -54,6 +60,11 @@ public class RedisUtil {
         }
     }
 
+    // 自增
+    public void incr(String key) {
+        redisTemplate.opsForValue().increment(key);
+    }
+
     /**
      * 获取剩余时间
      * @param key key
@@ -73,4 +84,19 @@ public class RedisUtil {
             redisTemplate.expire(key, time, TimeUnit.SECONDS);
         }
     }
+
+    /* 列表操作 */
+
+    // 移除指定元素
+    public void lRem(String key, Object value) {
+        redisTemplate.opsForList().remove(key, 0, value);
+    }
+
+    /* 脚本操作 */
+
+    // 执行活动报名的lua脚本
+    public int executeSignupScript(String numKey, String userListKey, long userId) {
+        return Objects.requireNonNull(redisTemplate.execute(redisScript, Arrays.asList(numKey, userListKey), userId));
+    }
+
 }
