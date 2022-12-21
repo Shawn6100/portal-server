@@ -9,6 +9,7 @@
         SELECT *
         FROM blog
         WHERE is_deleted = 0
+        ORDER BY id DESC
     </select>
 
     <select id="getBlogById" resultType="Blog">

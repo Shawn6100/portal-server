@@ -8,6 +8,7 @@ import cn.edu.gdufs.controller.dto.BlogInsertDTO;
 import cn.edu.gdufs.controller.dto.BlogUpdateDTO;
 import cn.edu.gdufs.controller.vo.AdminDetailVO;
 import cn.edu.gdufs.controller.vo.BlogForAdminVO;
+import cn.edu.gdufs.controller.vo.BlogFrontVO;
 import cn.edu.gdufs.exception.ApiException;
 import cn.edu.gdufs.pojo.Admin;
 import cn.edu.gdufs.pojo.Blog;
@@ -50,7 +51,7 @@ public class BlogController extends BaseController {
     public PageResult<BlogForAdminVO> getBlogList(@RequestParam(defaultValue = "1") Integer pageNumber,
                                                   @RequestParam(defaultValue = "5") Integer pageSize) {
         // 分页查询文章列表
-        List<Blog> blogList = blogService.getBlogList(pageNumber, pageSize);
+        List<Blog> blogList = blogService.getBlogListByPage(pageNumber, pageSize);
 
         // 封装分页结果
         PageResult<BlogForAdminVO> result = new PageResult<>();
@@ -150,4 +151,28 @@ public class BlogController extends BaseController {
     public void deleteBlog(@Min(value = 1, message = "文章id不能小于1") @PathVariable long id) {
         blogService.deleteBlog(id);
     }
+
+    /**
+     * 前台查询文章列表
+     */
+    @GetMapping("/front")
+    public List<BlogFrontVO> getFrontBlogList() {
+        List<Blog> blogList = blogService.getBlogList();
+
+        // 数据模型转换
+        List<BlogFrontVO> result = new ArrayList<>();
+        for (Blog blog : blogList) {
+            BlogFrontVO blogFrontVO = new BlogFrontVO();
+            BeanUtils.copyProperties(blog, blogFrontVO);
+
+            // 查询作者
+            String author = adminService.getAdminDetail(blog.getCreateUserId()).getNickname();
+            blogFrontVO.setAuthor(author);
+
+            result.add(blogFrontVO);
+        }
+
+        return result;
+    }
+
 }
