@@ -191,8 +191,7 @@ public class LectureServiceImpl implements LectureService {
 
     // 用户参与的分享会列表
     @Override
-    public List<Lecture> getUserAttendLectureList(long userId, int pageNumber, int pageSize) {
-        PageHelper.startPage(pageNumber, pageSize);
+    public List<Lecture> getUserAttendLectureList(long userId) {
         return lectureMapper.getUserAttendLectureList(userId);
     }
 }

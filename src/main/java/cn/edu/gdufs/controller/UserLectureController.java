@@ -3,6 +3,7 @@ package cn.edu.gdufs.controller;
 import cn.edu.gdufs.common.PageResult;
 import cn.edu.gdufs.config.interceptor.RequiredPermission;
 import cn.edu.gdufs.constant.RoleConstant;
+import cn.edu.gdufs.controller.vo.LectureFrontVO;
 import cn.edu.gdufs.pojo.Lecture;
 import cn.edu.gdufs.service.LectureService;
 import com.github.pagehelper.PageInfo;
@@ -12,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Min;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,14 +51,17 @@ public class UserLectureController extends BaseController {
      * 查看我参与的分享会列表
      */
     @GetMapping
-    public PageResult<Lecture> getMyLectureList(@RequestParam(defaultValue = "1") Integer pageNumber,
-                                                @RequestParam(defaultValue = "5") Integer pageSize) {
+    public List<LectureFrontVO> getMyLectureList() {
         // 查询数据
-        List<Lecture> lectureList = lectureService.getUserAttendLectureList(getUserId(), pageNumber, pageSize);
+        List<Lecture> lectureList = lectureService.getUserAttendLectureList(getUserId());
 
-        // 封装分页数据
-        PageResult<Lecture> result = new PageResult<>();
-        BeanUtils.copyProperties(PageInfo.of(lectureList), result);
+        // 数据模型转换
+        List<LectureFrontVO> result = new ArrayList<>();
+        for (Lecture lecture : lectureList) {
+            LectureFrontVO lectureFrontVO = new LectureFrontVO();
+            BeanUtils.copyProperties(lecture, lectureFrontVO);
+            result.add(lectureFrontVO);
+        }
 
         return result;
     }

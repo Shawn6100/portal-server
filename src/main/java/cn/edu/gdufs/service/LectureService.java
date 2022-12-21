@@ -36,5 +36,5 @@ public interface LectureService {
     void cancelSignUpLecture(long userId, long lectureId);
 
     // 用户参与的分享会列表
-    List<Lecture> getUserAttendLectureList(long userId, int pageNumber, int pageSize);
+    List<Lecture> getUserAttendLectureList(long userId);
 }
