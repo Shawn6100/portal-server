@@ -5,10 +5,19 @@
 
 <mapper namespace="cn.edu.gdufs.mapper.LectureMemberMapper">
 
+    <select id="checkIsCanceled" resultType="LectureMember">
+        SELECT *
+        FROM lecture_member
+        WHERE user_id = #{userId}
+          AND lecture_id = #{lectureId}
+          AND is_deleted = 1
+    </select>
+
     <select id="getLectureMemberByUserIdAndLectureId" resultType="LectureMember">
         SELECT *
         FROM lecture_member
-        WHERE user_id = #{userId} AND lecture_id = #{lectureId}
+        WHERE user_id = #{userId}
+          AND lecture_id = #{lectureId}
           AND is_deleted = 0
     </select>
 
@@ -16,5 +25,12 @@
         INSERT INTO lecture_member(user_id, lecture_id)
         VALUES (#{userId}, #{lectureId})
     </insert>
+
+    <update id="cancelSignup">
+        UPDATE lecture_member
+        SET is_deleted = 1
+        WHERE user_id = #{userId}
+          AND lecture_id = #{lectureId}
+    </update>
 
 </mapper>

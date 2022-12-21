@@ -11,10 +11,16 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface LectureMemberMapper {
 
+    // 查询是否取消过报名
+    LectureMember checkIsCanceled(long userId, long lectureId);
+
     // 根据userId和lectureId查询LectureMember
     LectureMember getLectureMemberByUserIdAndLectureId(long userId, long lectureId);
 
     // 新增数据
     void insertLectureMember(LectureMember lectureMember);
+
+    // 取消报名
+    void cancelSignup(long userId, long lectureId);
 
 }

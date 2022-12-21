@@ -116,9 +116,9 @@ public class LectureServiceImpl implements LectureService {
             throw new ApiException("该分享会停止报名");
         }
 
-        // 检查是否已报名
-        if (lectureMemberMapper.getLectureMemberByUserIdAndLectureId(userId, lectureId) != null) {
-            throw new ApiException("您已报名");
+        // 检查是否已取消报名
+        if (lectureMemberMapper.checkIsCanceled(userId, lectureId) != null) {
+            throw new ApiException("您已取消报名该活动，无法再次报名");
         }
 
         // 报名
@@ -147,6 +147,30 @@ public class LectureServiceImpl implements LectureService {
             redisUtil.lRem(userListKey, userId);
             e.printStackTrace();
             throw new ApiException("报名失败，请重试");
+        }
+    }
+
+    // 用户取消报名分享会
+    @Override
+    @Transactional
+    public void cancelSignUpLecture(long userId, long lectureId) {
+
+        // 检查用户是否报名该分享会
+        LectureMember lectureMember = lectureMemberMapper.getLectureMemberByUserIdAndLectureId(userId, lectureId);
+        if (lectureMember == null) {
+            throw new ApiException("您未报名该分享会");
+        }
+
+        // 剩余报名容量key
+        String capacityKey = String.format(CacheConstant.LECTURE_SIGNUP_REMAINING_CAPACITY, lectureId);
+        try {
+            // 删除MySQL中的记录
+            lectureMemberMapper.cancelSignup(userId, lectureId);
+            // Redis中剩余报名容量加一
+            redisUtil.incr(capacityKey);
+        } catch (Exception e) {
+            // 出现异常，恢复报名容量
+            redisUtil.decr(capacityKey);
         }
     }
 }

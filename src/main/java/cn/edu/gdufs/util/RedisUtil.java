@@ -65,6 +65,10 @@ public class RedisUtil {
         redisTemplate.opsForValue().increment(key);
     }
 
+    public void decr(String key) {
+        redisTemplate.opsForValue().decrement(key);
+    }
+
     /**
      * 获取剩余时间
      * @param key key

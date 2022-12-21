@@ -28,4 +28,7 @@ public interface LectureService {
 
     // 用户报名分享会
     void signUpLecture(long userId, long lectureId);
+
+    // 用户取消报名分享会
+    void cancelSignUpLecture(long userId, long lectureId);
 }
