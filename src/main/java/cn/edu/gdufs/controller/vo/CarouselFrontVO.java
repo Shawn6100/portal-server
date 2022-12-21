@@ -33,9 +33,4 @@ public class CarouselFrontVO {
     @JSONField(ordinal = 3)
     private String path;
 
-    /**
-     * 轮播图优先级：数字越大优先级越高
-     */
-    @JSONField(ordinal = 4)
-    private Long priority;
 }

@@ -51,4 +51,9 @@ public class Blog {
     @Min(value = 0, message = "文章最后修改用户id不能小于1")
     private Long updateUserId;
 
+    /**
+     * 发布时间
+     */
+    private String time;
+
 }

@@ -39,21 +39,15 @@ public class ActivityFrontVO {
     private String path;
 
     /**
-     * 活动优先级：数字越大优先级越高
-     */
-    @JSONField(ordinal = 5)
-    private Long priority;
-
-    /**
      * 活动时间：精确到日；格式：yyyy-MM-dd
      */
-    @JSONField(ordinal = 6)
+    @JSONField(ordinal = 5)
     private String time;
 
     /**
      * 活动的微信公众号链接
      */
-    @JSONField(ordinal = 7)
+    @JSONField(ordinal = 6)
     private String href;
 
 }

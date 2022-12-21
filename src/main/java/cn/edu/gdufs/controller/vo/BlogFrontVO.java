@@ -45,4 +45,10 @@ public class BlogFrontVO {
     @JSONField(ordinal = 5)
     private String author;
 
+    /**
+     * 文章发布时间
+     */
+    @JSONField(ordinal = 6)
+    private String time;
+
 }
