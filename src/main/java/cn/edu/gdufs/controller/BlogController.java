@@ -175,4 +175,22 @@ public class BlogController extends BaseController {
         return result;
     }
 
+    /**
+     * 前台查询文章详情
+     */
+    @GetMapping("/front/{id}")
+    public BlogFrontVO getFrontBlogDetail(@PathVariable long id) {
+        // 获取文章详情信息
+        Blog blog = blogService.getBlogById(id);
+
+        // 数据模型转换
+        BlogFrontVO blogFrontVO = new BlogFrontVO();
+        BeanUtils.copyProperties(blog, blogFrontVO);
+        // 设置作者
+        String author = adminService.getAdminDetail(blog.getCreateUserId()).getNickname();
+        blogFrontVO.setAuthor(author);
+
+        return blogFrontVO;
+    }
+
 }
