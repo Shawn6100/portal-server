@@ -122,7 +122,14 @@ public class LectureController {
      * 前台查询分享会详情
      */
     @GetMapping("/front/{id}")
-    public void getFrontLectureDetail(@PathVariable long id) {
+    public LectureFrontVO getFrontLectureDetail(@PathVariable long id) {
+        // 获取分享会详情信息
+        Lecture lecture = lectureService.getLectureById(id);
 
+        // 数据模型转换
+        LectureFrontVO lectureFrontVO = new LectureFrontVO();
+        BeanUtils.copyProperties(lecture, lectureFrontVO);
+
+        return lectureFrontVO;
     }
 }
