@@ -27,4 +27,7 @@ public interface LectureMapper {
 
     // 删除分享会信息
     void deleteLecture(long id);
+
+    // 用户参与的分享会列表
+    List<Lecture> getUserAttendLectureList(long userId);
 }

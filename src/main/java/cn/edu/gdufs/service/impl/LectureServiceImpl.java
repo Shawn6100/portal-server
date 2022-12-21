@@ -173,4 +173,11 @@ public class LectureServiceImpl implements LectureService {
             redisUtil.decr(capacityKey);
         }
     }
+
+    // 用户参与的分享会列表
+    @Override
+    public List<Lecture> getUserAttendLectureList(long userId, int pageNumber, int pageSize) {
+        PageHelper.startPage(pageNumber, pageSize);
+        return lectureMapper.getUserAttendLectureList(userId);
+    }
 }

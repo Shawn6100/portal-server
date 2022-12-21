@@ -8,6 +8,7 @@
     <select id="getLectureList" resultType="Lecture">
         SELECT *
         FROM lecture
+        ORDER BY id DESC
     </select>
 
     <select id="getLectureById" resultType="Lecture">
@@ -23,14 +24,14 @@
 
     <update id="updateLecture">
         UPDATE lecture
-        SET title = #{title},
-            content = #{content},
-            path = #{path},
-            date = #{date},
-            position = #{position},
+        SET title      = #{title},
+            content    = #{content},
+            path       = #{path},
+            date       = #{date},
+            position   = #{position},
             begin_time = #{beginTime},
-            end_time = #{endTime},
-            capacity = #{capacity}
+            end_time   = #{endTime},
+            capacity   = #{capacity}
         WHERE id = #{id}
     </update>
 
@@ -39,5 +40,16 @@
         SET is_deleted = 1
         WHERE id = #{id}
     </update>
+
+    <select id="getUserAttendLectureList" resultType="Lecture">
+        SELECT *
+        FROM lecture
+        WHERE id IN (
+            SELECT lecture_id
+            FROM lecture_member
+            WHERE user_id = #{userId} AND is_deleted = 0
+        )
+        ORDER BY id DESC
+    </select>
 
 </mapper>
