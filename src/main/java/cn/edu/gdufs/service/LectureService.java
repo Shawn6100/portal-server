@@ -11,8 +11,11 @@ import java.util.List;
  */
 public interface LectureService {
 
+    // 查询所有分享会列表
+    List<Lecture> getLectureList();
+
     // 分页查询分享会列表
-    List<Lecture> getLectureList(int pageNumber, int pageSize);
+    List<Lecture> getLectureListByPage(int pageNumber, int pageSize);
 
     // 查询分享会详情
     Lecture getLectureById(long id);

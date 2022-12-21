@@ -34,9 +34,15 @@ public class LectureServiceImpl implements LectureService {
     @Autowired
     private RedisUtil redisUtil;
 
+    // 查询所有分享会列表
+    @Override
+    public List<Lecture> getLectureList() {
+        return lectureMapper.getLectureList();
+    }
+
     // 分页查询分享会列表
     @Override
-    public List<Lecture> getLectureList(int pageNumber, int pageSize) {
+    public List<Lecture> getLectureListByPage(int pageNumber, int pageSize) {
         PageHelper.startPage(pageNumber, pageSize);
         return lectureMapper.getLectureList();
     }
