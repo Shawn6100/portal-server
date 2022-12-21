@@ -35,9 +35,15 @@ public class CarouselServiceImpl implements CarouselService {
     @Autowired
     private RedisUtil redisUtil;
 
+    // 查询所有轮播图列表
+    @Override
+    public List<Carousel> getCarouselList() {
+        return carouselMapper.getCarouselList();
+    }
+
     // 分页查询轮播图列表
     @Override
-    public List<Carousel> getCarouselList(int pageNumber, int pageSize) {
+    public List<Carousel> getCarouselListByPage(int pageNumber, int pageSize) {
         PageHelper.startPage(pageNumber, pageSize);
         return carouselMapper.getCarouselList();
     }

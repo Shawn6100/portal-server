@@ -13,7 +13,10 @@ import java.util.List;
 public interface BlogService {
 
     // 查询所有文章列表
-    List<Blog> getBlogList(int pageNumber, int pageSize);
+    List<Blog> getBlogList();
+
+    // 分页查询所有文章列表
+    List<Blog> getBlogListByPage(int pageNumber, int pageSize);
 
     // 将文章列表转换为文章VO列表
     List<BlogForAdminVO> getBlogVOList(List<Blog> blogList);

@@ -33,6 +33,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/user/login")     // 用户登录
                 .excludePathPatterns("/common/**")      // 通用Controller
                 .excludePathPatterns("/upload/**")      // 服务器上的文件资源
+                .excludePathPatterns("/**/front/**")    // 前台展示数据
                 .excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**") // swagger
                 .addPathPatterns("/**");
     }

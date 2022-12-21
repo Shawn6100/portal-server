@@ -12,8 +12,11 @@ import java.util.List;
  */
 public interface CarouselService {
 
+    // 查询所有轮播图列表
+    List<Carousel> getCarouselList();
+
     // 分页查询轮播图列表
-    List<Carousel> getCarouselList(int pageNumber, int pageSize);
+    List<Carousel> getCarouselListByPage(int pageNumber, int pageSize);
 
     // 将轮播图列表转换为轮播图VO列表
     List<CarouselForAdminVO> getCarouselVOList(List<Carousel> carousels);

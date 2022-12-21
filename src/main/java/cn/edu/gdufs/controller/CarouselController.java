@@ -6,6 +6,7 @@ import cn.edu.gdufs.constant.RoleConstant;
 import cn.edu.gdufs.controller.dto.CarouselInsertDTO;
 import cn.edu.gdufs.controller.dto.CarouselUpdateDTO;
 import cn.edu.gdufs.controller.vo.AdminDetailVO;
+import cn.edu.gdufs.controller.vo.CarouselFrontVO;
 import cn.edu.gdufs.controller.vo.CarouselForAdminVO;
 import cn.edu.gdufs.pojo.Admin;
 import cn.edu.gdufs.pojo.Carousel;
@@ -47,7 +48,7 @@ public class CarouselController extends BaseController {
     public PageResult<CarouselForAdminVO> getCarouselList(@RequestParam(defaultValue = "1") Integer pageNumber,
                                                           @RequestParam(defaultValue = "5") Integer pageSize) {
         // 分页查询轮播图列表
-        List<Carousel> carouselList = carouselService.getCarouselList(pageNumber, pageSize);
+        List<Carousel> carouselList = carouselService.getCarouselListByPage(pageNumber, pageSize);
         PageResult<CarouselForAdminVO> result = new PageResult<>();
         BeanUtils.copyProperties(carouselList, result);
 
@@ -134,6 +135,25 @@ public class CarouselController extends BaseController {
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
     public void deleteCarousel(@Min(value = 1, message = "轮播图id不能小于1") @PathVariable long id) {
         carouselService.deleteCarousel(id);
+    }
+
+    /**
+     * 前台查询轮播图列表
+     */
+    @GetMapping("/front")
+    public List<CarouselFrontVO> getFrontCarouselList() {
+        // 查询轮播图列表
+        List<Carousel> carouselList = carouselService.getCarouselList();
+
+        // 数据模型转换
+        List<CarouselFrontVO> result = new ArrayList<>();
+        for (Carousel carousel : carouselList) {
+            CarouselFrontVO carouselFrontVO = new CarouselFrontVO();
+            BeanUtils.copyProperties(carousel, carouselFrontVO);
+            result.add(carouselFrontVO);
+        }
+
+        return result;
     }
 
 }

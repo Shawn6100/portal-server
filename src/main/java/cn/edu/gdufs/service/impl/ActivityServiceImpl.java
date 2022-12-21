@@ -28,9 +28,15 @@ public class ActivityServiceImpl implements ActivityService {
     @Autowired
     private RedisUtil redisUtil;
 
+    // 查询所有活动列表
+    @Override
+    public List<Activity> getActivityList() {
+        return activityMapper.getActivityList();
+    }
+
     // 查询活动列表
     @Override
-    public List<Activity> getActivityList(int pageNumber, int pageSize) {
+    public List<Activity> getActivityListByPage(int pageNumber, int pageSize) {
         PageHelper.startPage(pageNumber, pageSize);
         return activityMapper.getActivityList();
     }

@@ -36,7 +36,13 @@ public class BlogServiceImpl implements BlogService {
 
     // 查询所有文章列表
     @Override
-    public List<Blog> getBlogList(int pageNumber, int pageSize) {
+    public List<Blog> getBlogList() {
+        return blogMapper.getBlogList();
+    }
+
+    // 分页查询所有文章列表
+    @Override
+    public List<Blog> getBlogListByPage(int pageNumber, int pageSize) {
         // 开启分页
         PageHelper.startPage(pageNumber, pageSize);
         return blogMapper.getBlogList();

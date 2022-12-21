@@ -5,6 +5,7 @@ import cn.edu.gdufs.config.interceptor.RequiredPermission;
 import cn.edu.gdufs.constant.RoleConstant;
 import cn.edu.gdufs.controller.dto.ActivityInsertDTO;
 import cn.edu.gdufs.controller.dto.ActivityUpdateDTO;
+import cn.edu.gdufs.controller.vo.ActivityFrontVO;
 import cn.edu.gdufs.pojo.Activity;
 import cn.edu.gdufs.service.ActivityService;
 import com.github.pagehelper.PageInfo;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Description:
@@ -41,7 +44,7 @@ public class ActivityController extends BaseController {
     public PageResult<Activity> getActivityList(@RequestParam(defaultValue = "1") Integer pageNumber,
                                                 @RequestParam(defaultValue = "5") Integer pageSize) {
         PageResult<Activity> result = new PageResult<>();
-        BeanUtils.copyProperties(PageInfo.of(activityService.getActivityList(pageNumber, pageSize)), result);
+        BeanUtils.copyProperties(PageInfo.of(activityService.getActivityListByPage(pageNumber, pageSize)), result);
         return result;
     }
 
@@ -99,6 +102,25 @@ public class ActivityController extends BaseController {
     @DeleteMapping("/{id}")
     public void deleteActivity(@Min(value = 1, message = "id不能小于1") @PathVariable long id) {
         activityService.deleteActivity(id);
+    }
+
+    /**
+     * 前台查询活动列表
+     */
+    @GetMapping("/front")
+    public List<ActivityFrontVO> getFrontActivityList() {
+        // 获取活动列表数据
+        List<Activity> activityList = activityService.getActivityList();
+
+        // 数据模型转换
+        List<ActivityFrontVO> result = new ArrayList<>();
+        for (Activity activity : activityList) {
+            ActivityFrontVO activityFrontVO = new ActivityFrontVO();
+            BeanUtils.copyProperties(activity, activityFrontVO);
+            result.add(activityFrontVO);
+        }
+
+        return result;
     }
 
 }

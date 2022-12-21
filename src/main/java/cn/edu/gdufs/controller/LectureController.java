@@ -5,6 +5,7 @@ import cn.edu.gdufs.config.interceptor.RequiredPermission;
 import cn.edu.gdufs.constant.RoleConstant;
 import cn.edu.gdufs.controller.dto.LectureInsertDTO;
 import cn.edu.gdufs.controller.dto.LectureUpdateDTO;
+import cn.edu.gdufs.controller.vo.LectureFrontVO;
 import cn.edu.gdufs.pojo.Lecture;
 import cn.edu.gdufs.service.LectureService;
 import com.github.pagehelper.PageInfo;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,7 +40,7 @@ public class LectureController {
     public PageResult<Lecture> getLectureList(@RequestParam(defaultValue = "1") Integer pageNumber,
                                               @RequestParam(defaultValue = "5") Integer pageSize) {
         // 分页查询分享会列表
-        List<Lecture> lectureList = lectureService.getLectureList(pageNumber, pageSize);
+        List<Lecture> lectureList = lectureService.getLectureListByPage(pageNumber, pageSize);
 
         // 封装分页数据
         PageResult<Lecture> result = new PageResult<>();
@@ -95,5 +97,39 @@ public class LectureController {
     public void deleteLecture(@Min(value = 1, message = "分享会id不能小于1") @PathVariable long id) {
         // 删除分享会信息
         lectureService.deleteLecture(id);
+    }
+
+    /**
+     * 前台查询分享会列表
+     */
+    @GetMapping("/front")
+    public List<LectureFrontVO> getFrontLectureList() {
+        // 查询分享会列表
+        List<Lecture> lectureList = lectureService.getLectureList();
+
+        // 数据模型转换
+        List<LectureFrontVO> result = new ArrayList<>();
+        for (Lecture lecture : lectureList) {
+            LectureFrontVO lectureFrontVO = new LectureFrontVO();
+            BeanUtils.copyProperties(lecture, lectureFrontVO);
+            result.add(lectureFrontVO);
+        }
+
+        return result;
+    }
+
+    /**
+     * 前台查询分享会详情
+     */
+    @GetMapping("/front/{id}")
+    public LectureFrontVO getFrontLectureDetail(@PathVariable long id) {
+        // 获取分享会详情信息
+        Lecture lecture = lectureService.getLectureById(id);
+
+        // 数据模型转换
+        LectureFrontVO lectureFrontVO = new LectureFrontVO();
+        BeanUtils.copyProperties(lecture, lectureFrontVO);
+
+        return lectureFrontVO;
     }
 }
