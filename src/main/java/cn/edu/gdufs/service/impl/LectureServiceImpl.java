@@ -155,6 +155,15 @@ public class LectureServiceImpl implements LectureService {
     @Transactional
     public void cancelSignUpLecture(long userId, long lectureId) {
 
+        // 查询分享会信息
+        Lecture lecture = getLectureById(lectureId);
+        if (lecture == null) {
+            throw new ApiException("分享会不存在");
+        }
+        if (LectureConstant.LECTURE_NOT_ALLOW_SIGN_UP == lecture.getStatus()) {
+            throw new ApiException("该分享会报名停止");
+        }
+
         // 检查用户是否报名该分享会
         LectureMember lectureMember = lectureMemberMapper.getLectureMemberByUserIdAndLectureId(userId, lectureId);
         if (lectureMember == null) {
