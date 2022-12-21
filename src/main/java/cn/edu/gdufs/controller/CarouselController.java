@@ -6,7 +6,7 @@ import cn.edu.gdufs.constant.RoleConstant;
 import cn.edu.gdufs.controller.dto.CarouselInsertDTO;
 import cn.edu.gdufs.controller.dto.CarouselUpdateDTO;
 import cn.edu.gdufs.controller.vo.AdminDetailVO;
-import cn.edu.gdufs.controller.vo.CarouseFrontVO;
+import cn.edu.gdufs.controller.vo.CarouselFrontVO;
 import cn.edu.gdufs.controller.vo.CarouselForAdminVO;
 import cn.edu.gdufs.pojo.Admin;
 import cn.edu.gdufs.pojo.Carousel;
@@ -141,16 +141,16 @@ public class CarouselController extends BaseController {
      * 前台查询轮播图列表
      */
     @GetMapping("/front")
-    public List<CarouseFrontVO> getFrontCarouselList() {
+    public List<CarouselFrontVO> getFrontCarouselList() {
         // 查询轮播图列表
         List<Carousel> carouselList = carouselService.getCarouselList();
 
         // 数据模型转换
-        List<CarouseFrontVO> result = new ArrayList<>();
+        List<CarouselFrontVO> result = new ArrayList<>();
         for (Carousel carousel : carouselList) {
-            CarouseFrontVO carouseFrontVO = new CarouseFrontVO();
-            BeanUtils.copyProperties(carousel, carouseFrontVO);
-            result.add(carouseFrontVO);
+            CarouselFrontVO carouselFrontVO = new CarouselFrontVO();
+            BeanUtils.copyProperties(carousel, carouselFrontVO);
+            result.add(carouselFrontVO);
         }
 
         return result;

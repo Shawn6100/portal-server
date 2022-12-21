@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CarouseFrontVO {
+public class CarouselFrontVO {
 
     /**
      * 轮播图id
