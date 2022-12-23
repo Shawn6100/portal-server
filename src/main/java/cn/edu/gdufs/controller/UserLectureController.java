@@ -1,12 +1,10 @@
 package cn.edu.gdufs.controller;
 
-import cn.edu.gdufs.common.PageResult;
 import cn.edu.gdufs.config.interceptor.RequiredPermission;
 import cn.edu.gdufs.constant.RoleConstant;
 import cn.edu.gdufs.controller.vo.LectureFrontVO;
 import cn.edu.gdufs.pojo.Lecture;
 import cn.edu.gdufs.service.LectureService;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;

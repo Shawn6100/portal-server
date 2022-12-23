@@ -11,6 +11,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 /**
@@ -71,7 +73,9 @@ public class CommonController extends BaseController {
      * 用户注册发送邮箱验证码
      */
     @PostMapping("/user/register/code")
-    public void sendRegisterCode(@Email(message = "邮箱格式错误") String email) {
+    public void sendRegisterCode(@NotBlank(message = "邮箱不能为空")
+                                 @Email(message = "邮箱格式错误")
+                                         String email) {
         commonService.userRegisterSendVerificationCode(email);
     }
 
