@@ -53,7 +53,7 @@ public class FileUtil {
             // 获取文件后缀名
             String suffix = filename.substring(filename.lastIndexOf("."));
             // 获取文件类型
-            if (!ALLOW_FILE_TYPE.contains(suffix.substring(1))) {
+            if (!ALLOW_FILE_TYPE.contains(suffix.substring(1).trim().toLowerCase())) {
                 throw new ApiException("文件类型不允许");
             }
             // 目标文件夹路径
