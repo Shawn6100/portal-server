@@ -80,11 +80,15 @@ public class LectureServiceImpl implements LectureService {
     // 新增分享会信息
     @Override
     public void insertLecture(Lecture lecture) {
+        // 新增分享会
         lectureMapper.insertLecture(lecture);
 
         // 将报名容量存入Redis
         String capacityKey = String.format(CacheConstant.LECTURE_SIGNUP_REMAINING_CAPACITY, lecture.getId());
         redisUtil.set(capacityKey, lecture.getCapacity());
+
+        // 将新分享会通知放入消息队列中，准备异步通知所有用户
+        redisUtil.lPush(CacheConstant.NEW_LECTURE_NOTICE, lecture);
     }
 
     // 修改分享会信息

@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 public class RedisUtil {
 
     @Autowired
-    private RedisTemplate<String,Object> redisTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
     @Autowired
     private DefaultRedisScript<Integer> redisScript;
 
@@ -71,16 +71,18 @@ public class RedisUtil {
 
     /**
      * 获取剩余时间
+     *
      * @param key key
      * @return -1为未设置；-2为键不存在
      */
-    public Long getExpire(String key){
+    public Long getExpire(String key) {
         return redisTemplate.opsForValue().getOperations().getExpire(key);
     }
 
     /**
      * 设置过期时间
-     * @param key key
+     *
+     * @param key  key
      * @param time 过期时间，单位为秒
      */
     public void setExpire(String key, long time) {
@@ -90,6 +92,16 @@ public class RedisUtil {
     }
 
     /* 列表操作 */
+
+    // 左端添加
+    public void lPush(String key, Object... values) {
+        redisTemplate.opsForList().leftPushAll(key, values);
+    }
+
+    // 左端移除
+    public Object lPop(String key) {
+        return redisTemplate.opsForList().leftPop(key);
+    }
 
     // 移除指定元素
     public void lRem(String key, Object value) {

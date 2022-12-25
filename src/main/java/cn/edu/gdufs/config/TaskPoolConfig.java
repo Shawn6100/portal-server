@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
@@ -15,7 +14,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Configuration
 public class TaskPoolConfig {
     @Bean("taskExecutor")
-    public Executor taskExecutor(){
+    public ThreadPoolTaskExecutor taskExecutor(){
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(10);
         executor.setMaxPoolSize(20);
@@ -25,6 +24,7 @@ public class TaskPoolConfig {
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         executor.setWaitForTasksToCompleteOnShutdown(true);
         executor.setAwaitTerminationSeconds(60);
+        executor.initialize();
         return executor;
     }
 }
