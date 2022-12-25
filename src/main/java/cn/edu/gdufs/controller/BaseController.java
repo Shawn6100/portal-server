@@ -16,7 +16,7 @@ public class BaseController {
 
     /**
      * 获取目前用户的id和role
-     * @return 用户id和用户权限数组
+     * @return 用户id和用户权限Map
      */
     private Map<String, Object> getCurrentUser() {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -30,7 +30,6 @@ public class BaseController {
 
     /**
      * 获取当前用户的id
-     * @return 用户id
      */
     public int getUserId() {
         return (int) getCurrentUser().get("userId");
@@ -38,7 +37,6 @@ public class BaseController {
 
     /**
      * 获取当前用户的权限
-     * @return 用户权限
      */
     public int getUserRole() {
         return (int) getCurrentUser().get("role");

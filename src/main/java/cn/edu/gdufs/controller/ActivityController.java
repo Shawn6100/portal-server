@@ -100,6 +100,7 @@ public class ActivityController extends BaseController {
      * @param id 活动id
      */
     @DeleteMapping("/{id}")
+    @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
     public void deleteActivity(@Min(value = 1, message = "id不能小于1") @PathVariable long id) {
         activityService.deleteActivity(id);
     }

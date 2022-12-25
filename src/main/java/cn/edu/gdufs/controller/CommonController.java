@@ -23,7 +23,7 @@ import javax.validation.constraints.Pattern;
 @RestController
 @RequestMapping("/common")
 @Validated
-public class CommonController extends BaseController {
+public class CommonController {
 
     @Autowired
     private FileUtil fileUtil;

@@ -148,8 +148,19 @@ public class BlogController extends BaseController {
      */
     @DeleteMapping("/{id}")
     @RequiredPermission({RoleConstant.ROLE_SUPER_ADMIN, RoleConstant.ROLE_NORMAL_ADMIN})
-    public void deleteBlog(@Min(value = 1, message = "文章id不能小于1") @PathVariable long id) {
+    public ApiResponse<Object> deleteBlog(@Min(value = 1, message = "文章id不能小于1") @PathVariable long id) {
+        // 查询文章是否存在
+        Blog tempBlog = blogService.getBlogById(id);
+        if (tempBlog == null) {
+            throw new ApiException("文章id参数错误，文章不存在");
+        }
+        // 权限拦截，普通管理员只能删除自己创建的文章
+        if (getUserRole() != RoleConstant.ROLE_SUPER_ADMIN && getUserId() != tempBlog.getCreateUserId()) {
+            return ApiResponse.permissionError();
+        }
+
         blogService.deleteBlog(id);
+        return ApiResponse.success();
     }
 
     /**

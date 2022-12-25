@@ -167,7 +167,7 @@ public class LectureServiceImpl implements LectureService {
             throw new ApiException("分享会不存在");
         }
         if (LectureConstant.LECTURE_NOT_ALLOW_SIGN_UP == lecture.getStatus()) {
-            throw new ApiException("该分享会报名停止");
+            throw new ApiException("该分享会已停止报名/取消报名操作");
         }
 
         // 检查用户是否报名该分享会
