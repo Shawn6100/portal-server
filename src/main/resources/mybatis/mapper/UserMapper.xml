@@ -46,4 +46,10 @@
         WHERE id = #{id}
     </select>
 
+    <select id="getUserList" resultType="User">
+        SELECT *
+        FROM user
+        WHERE email NOT LIKE CONCAT('test', CONCAT('%', '@163.com'))
+    </select>
+
 </mapper>

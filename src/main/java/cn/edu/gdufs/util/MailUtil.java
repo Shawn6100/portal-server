@@ -1,6 +1,8 @@
 package cn.edu.gdufs.util;
 
 import cn.edu.gdufs.exception.ApiException;
+import cn.edu.gdufs.pojo.Lecture;
+import cn.edu.gdufs.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -29,9 +31,10 @@ public class MailUtil {
 
     /**
      * 发送邮件方法
-     * @param recipients    收件人邮箱数组
-     * @param title         邮件标题
-     * @param content       邮件正文
+     *
+     * @param recipients 收件人邮箱数组
+     * @param title      邮件标题
+     * @param content    邮件正文
      */
     private void sendMail(String[] recipients, String title, String content) {
         MimeMessage mimeMailMessage = javaMailSender.createMimeMessage();
@@ -49,7 +52,8 @@ public class MailUtil {
 
     /**
      * 忘记密码发送验证码
-     * @param recipient 接收邮箱
+     *
+     * @param recipient        接收邮箱
      * @param verificationCode 验证码
      */
     @Async("taskExecutor")  // 异步发送邮件
@@ -63,11 +67,24 @@ public class MailUtil {
     /**
      * 用户注册发送验证码
      */
+    @Async("taskExecutor")
     public void sendUserRegisterVerificationCode(String recipient, String verificationCode) {
         String title = "【广外Qt官网展示系统】注册验证码";
         String template = "您正在注册【广外Qt官网展示系统】，您的验证码为 %s ，5分钟内有效。";
         String mailBody = String.format(template, verificationCode);
         sendMail(new String[]{recipient}, title, mailBody);
+    }
+
+    /**
+     * 发送新分享会上线通知
+     */
+    @Async("taskExecutor")
+    public void sendNewLectureNotice(User user, Lecture lecture) {
+        String title = "【广外Qt官网展示系统】分享会上线通知";
+        String mailBody = user.getNickname() + "，您好！\n"
+                + "“" + lecture.getTitle() + "”现已开放报名，本期分享会举办日期为 " + lecture.getDate() + "，"
+                + "欢迎登录官网展示系统报名此活动！";
+        sendMail(new String[]{user.getEmail()}, title, mailBody);
     }
 
     /**

@@ -27,4 +27,6 @@ public class CacheConstant {
 
     public static final String LECTURE_SIGNUP_REMAINING_CAPACITY = "lecture_remaining_number_%s"; // 分享会剩余报名容量
     public static final String LECTURE_SIGNUP_USER_LIST = "lecture_signup_success_user_list_%s"; // 分享会报名用户id列表
+
+    public static final String NEW_LECTURE_NOTICE = "new_lecture_notice"; // 新分享会通知
 }

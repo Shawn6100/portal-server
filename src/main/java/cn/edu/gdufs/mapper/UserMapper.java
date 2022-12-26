@@ -34,4 +34,7 @@ public interface UserMapper {
 
     // 管理员获取用户详情
     UserForAdminVO getUserDetail(long id);
+
+    // 查询用户列表（用于发送分享会上线通知，过滤测试账号）
+    List<User> getUserList();
 }
